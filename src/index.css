@@ -16,3 +16,11 @@ code {
 	position: fixed;
 	bottom: 0;
 }
+
+.account-header-segment {
+	padding: 20px 5%!important;
+}
+
+.header {
+	margin: 5px 0!important;
+}
