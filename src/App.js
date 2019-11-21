@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import 'semantic-ui-css/semantic.min.css'
 import './App.css'
 
+// component imports
+import LoginComponent from './components/users/LoginComponent.js'
+
 class App extends Component {
 
   constructor() {
@@ -9,8 +12,8 @@ class App extends Component {
 
     this.state = {
       loggedIn: false,
-      showLogin: false,
-      showRegister: true
+      showLogin: true,
+      showRegister: false
     }
   }
 
@@ -19,14 +22,16 @@ class App extends Component {
         // if the user is not logged in
         if (this.state.loggedIn === false) {
 
+          // if true this will reander the LoginComponent
           if (this.state.showLogin) {
 
             return (
               <div className="App">
-                <p>login</p>
+                <LoginComponent />
               </div>
             )
 
+          // if true this will reander the RegisterComponent
           } else {
 
             return (
