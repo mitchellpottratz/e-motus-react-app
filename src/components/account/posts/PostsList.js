@@ -1,5 +1,5 @@
 import React from 'react'
-import { Grid, Card, Button } from 'semantic-ui-react'
+import { Grid, Card, Header, Button } from 'semantic-ui-react'
 
 
 function PostsList(props) {
@@ -23,9 +23,14 @@ function PostsList(props) {
 	})
 
 	return (
-		<Card.Group centered>
-			{posts}
-		</Card.Group>
+		<div>
+			<Header as="h3">
+				Your Posts
+			</Header>
+			<Card.Group centered>
+				{posts}
+			</Card.Group>
+		</div>
 	)
 }
 

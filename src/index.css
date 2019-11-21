@@ -21,6 +21,10 @@ code {
 	padding: 20px 5%!important;
 }
 
-.header {
+.small-margin-header {
 	margin: 5px 0!important;
+}
+
+.tab-container {
+	padding: 20px 5%!important;
 }

@@ -11,7 +11,7 @@ class AccountContainer extends Component {
 		super()
 
 		this.state = {
-			activeTab: 'posts',
+			activeTab: 'posts', // determines what tab to show the user
 			posts: [], // holds the users posts
 			likes: [], // holds the users likes
 			comments: [] // holds the users comments
@@ -20,7 +20,6 @@ class AccountContainer extends Component {
 
 	// this is called everytime the component renders
 	componentDidMount() {
-
 		// switch state determines which tab should be displayed
 		// between 'posts', 'likes' and comments, and also detemines
 		// which api should be called to get the correct content
@@ -32,18 +31,26 @@ class AccountContainer extends Component {
 			case 'likes':
 				// this method gets all of the posts the user has liked
 				this.getUsersLikes()
-				break
+				return 'likes container'
 			case 'comments':
 				// this method gets all of the users comments
 				this.getUserComments()
-				break
+				return 'comments container'
 		}
+	}
+
+	renderTab = () => {
+		
 	}
 
 	// handles the logic for switching between the 
 	// 'posts', 'likes' and 'comments' tabs
-	handleTabClick = (e) => {
+	handleTabClick = (tab) => {
 		console.log('handleTabClick called')
+		console.log(tab)
+
+		// // set the state to the tab that was just clicked
+		// this.setState({})
 	}
 
 	// makes api call to get all of the users posts, then passes 
@@ -80,6 +87,21 @@ class AccountContainer extends Component {
 	}
 
 	render() {
+
+		// determines which content to show depending on what tab the user 
+		// has open
+		const tabToRender = () => {
+			switch (this.state.activeTab) {
+				case 'posts':
+					return <PostsList posts={this.state.posts} />
+				case 'likes':
+					return 'likes container'
+				case 'comments':
+					return 'comments container'
+			}
+		}
+
+		// content that will render on the page
 		return (
 			<Container>
 				<Segment clearing className="account-header-segment">
@@ -87,20 +109,20 @@ class AccountContainer extends Component {
 						<Grid.Row>
 
 							<Grid.Column width={3}>
-								<Header as="h1">
+								<Header as="h1" className="small-margin-header">
 									<Image circular src='https://react.semantic-ui.com/images/avatar/large/patrick.png' /> 
 								</Header>
 							</Grid.Column>
 
 							<Grid.Column width={6}>
 								<Container floated="left">
-									<Header as="h1">
+									<Header as="h1" className="small-margin-header">
 										{this.props.user.first_name} {this.props.user.last_name}
 									</Header>
-									<Header as="h4">
+									<Header as="h4" className="small-margin-header">
 										@{this.props.user.username}
 									</Header>
-									<Header as="h5">
+									<Header as="h5" className="small-margin-header">
 										followers count here
 									</Header>
 								</Container>
@@ -115,22 +137,24 @@ class AccountContainer extends Component {
 			        	<Menu.Item
 				            name='Posts'
 				            active={this.state.activeTab === 'posts'}
-				            onClick={this.handleTabClick}
+				            onClick={this.handleTabClick('posts')}
 			          	/>
 			            <Menu.Item
 				            name='Likes'
 				            active={this.state.activeTab === 'likes'}
-				            onClick={this.handleTabClick}
+				            onClick={this.handleTabClick('likes')}
 			          	/>
 			          	<Menu.Item
 				            name='Comments'
 				            active={this.state.activeTab === 'comments'}
-				            onClick={this.handleTabClick}
+				            onClick={this.handleTabClick('comments')}
 			          	/>
 			        </Menu>
 
-			        <Container>
-			        	<PostsList posts={this.state.posts} />
+			        <Container className="tab-container">
+			      
+			        	{tabToRender()}
+
 			        </Container>
 			       
 				</Segment>
