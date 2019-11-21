@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import { Segment, Grid, Menu, Container, Header, Image } from 'semantic-ui-react'
 
+// component imports
+import PostsList from './posts/PostsList.js'
+
 
 class AccountContainer extends Component {
 
@@ -8,9 +11,33 @@ class AccountContainer extends Component {
 		super()
 
 		this.state = {
-			activeTab: 'posts'
+			activeTab: 'posts',
+			posts: [], // holds the users posts
+			likes: [], // holds the users likes
+			comments: [] // holds the users comments
 		}
-		this.getUsersPosts()
+	}
+
+	// this is called everytime the component renders
+	componentDidMount() {
+
+		// switch state determines which tab should be displayed
+		// between 'posts', 'likes' and comments, and also detemines
+		// which api should be called to get the correct content
+		switch (this.state.activeTab) {
+			case 'posts':
+				// this method gets all of the users post and renders them
+				this.getUsersPosts()
+				break
+			case 'likes':
+				// this method gets all of the posts the user has liked
+				this.getUsersLikes()
+				break
+			case 'comments':
+				// this method gets all of the users comments
+				this.getUserComments()
+				break
+		}
 	}
 
 	// handles the logic for switching between the 
@@ -31,11 +58,25 @@ class AccountContainer extends Component {
 
 			// parses the response
 			const parsedResponse = await response.json()
-			console.log(parsedResponse)
+			
+			console.log(typeof this.state.posts)
+
+			// sets the posts returned from the api into the state
+			this.setState({
+				posts: parsedResponse.data
+			})
 
 		} catch (error) {
 			console.log(error);
 		}	
+	}
+
+	getUsersLikes = async () => {
+		console.log('getUsersLikes called')
+	}
+
+	getUsersComments = async () => {
+		console.log('getUsersComments called')
 	}
 
 	render() {
@@ -88,8 +129,10 @@ class AccountContainer extends Component {
 			          	/>
 			        </Menu>
 
-
-
+			        <Container>
+			        	<PostsList posts={this.state.posts} />
+			        </Container>
+			       
 				</Segment>
 
 			</Container>
