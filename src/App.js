@@ -5,6 +5,7 @@ import './App.css'
 // component imports
 import LoginComponent from './components/users/LoginComponent.js'
 import RegisterComponent from './components/users/RegisterComponent.js'
+import MainContainer from './components/account/MainContainer.js'
 
 class App extends Component {
 
@@ -15,7 +16,7 @@ class App extends Component {
       loggedIn: false,
       showLogin: true,
       showRegister: false,
-      userEmail: ''
+      user: null
     }
   }
 
@@ -59,8 +60,9 @@ class App extends Component {
       if (parsedResponse.status.code === 200) {
         this.setState({
           loggedIn: true,
-          userEmail: parsedResponse.data.email
+          user: parsedResponse.data
         })
+        console.log(this.state.user)
       } 
 
     } catch (error) {
@@ -88,7 +90,7 @@ class App extends Component {
       if (parsedResponse.status.code === 201) {
         this.setState({
           loggedIn: true,
-          userEmail: parsedResponse.data.email
+          user: parsedResponse.data
         })
       } 
 
@@ -104,7 +106,6 @@ class App extends Component {
 
           // if true this will reander the LoginComponent
           if (this.state.showLogin) {
-
             return (
               <div className="App">
                 <LoginComponent switchComponent={this.switchComponent} login={this.login} />
@@ -113,21 +114,18 @@ class App extends Component {
 
           // if true this will reander the RegisterComponent
           } else {
-
             return (
               <div className="App">
                 <RegisterComponent switchComponent={this.switchComponent} register={this.register} />
               </div>
             )
-
           }
 
         // if the user is logged in
         } else {
-
           return (
               <div className="App">
-                <p>logged in</p>
+                <MainContainer user={this.state.user} />
               </div>
             )
       }
