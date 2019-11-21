@@ -22,7 +22,6 @@ class LoginComponent extends Component {
 
 	// handles the login form submission
 	handleSubmit = (e) => {
-		console.log('submit called')
 		this.props.login(this.state)
 	}
 
@@ -48,6 +47,7 @@ class LoginComponent extends Component {
 
 								<Button type="submit" color="blue">Login</Button>
 							</Form>
+							<small>Don't have an account? <strong onClick={this.props.switchComponent}>Register Here</strong></small>
 						</Segment>
 					</Grid.Column>
 
@@ -59,3 +59,8 @@ class LoginComponent extends Component {
 }
 
 export default LoginComponent
+
+
+
+
+

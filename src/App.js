@@ -4,6 +4,7 @@ import './App.css'
 
 // component imports
 import LoginComponent from './components/users/LoginComponent.js'
+import RegisterComponent from './components/users/RegisterComponent.js'
 
 class App extends Component {
 
@@ -18,9 +19,28 @@ class App extends Component {
     }
   }
 
+  // switches between the login and register components
+  switchComponent = () => {
+
+    // if the LoginComponent is currently being displayed
+    if (this.state.showLogin === true) {
+      this.setState({
+        showLogin: false,
+        showRegister: true
+      })
+
+    // if the RegisterComponent is currently being displayed
+    } else {
+       this.setState({
+        showRegister: false,
+        showLogin: true
+      })
+    }
+  }
+
   // makes api call to log in the user
   login = async (loginData) => {
-    console.log('login call with data:', loginData)
+
     try {
       // makes api call to try to login the user
       const response = await fetch(process.env.REACT_APP_API_URL + '/api/v1/users/login', {
@@ -35,20 +55,45 @@ class App extends Component {
       // parses the json response
       const parsedResponse = await response.json()
 
-      // if the responses status code is 200
+      // if the user was successfully logged in, log in the user
       if (parsedResponse.status.code === 200) {
-        console.log('logged in successfully')
-        // logs in the user
         this.setState({
           loggedIn: true,
           userEmail: parsedResponse.data.email
         })
-      } else {
-        console.log('login failed')
-      }
+      } 
 
     } catch (error) {
       console.log(error)
+    }
+  }
+
+  // makes api call to register a new user
+  register = async (registerData) => {
+    try {
+      // makes the api call
+      const response = await fetch(process.env.REACT_APP_API_URL + '/api/v1/users/register', {
+        method: 'POST',
+        credentials: 'include',
+        body: JSON.stringify(registerData),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+
+      // parses the reponse 
+      const parsedResponse = await response.json()
+
+      // if the user was successfully creates, log the user in
+      if (parsedResponse.status.code === 201) {
+        this.setState({
+          loggedIn: true,
+          userEmail: parsedResponse.data.email
+        })
+      } 
+
+    } catch (error) {
+      console.log(error);
     }
   }
 
@@ -62,7 +107,7 @@ class App extends Component {
 
             return (
               <div className="App">
-                <LoginComponent login={this.login} />
+                <LoginComponent switchComponent={this.switchComponent} login={this.login} />
               </div>
             )
 
@@ -71,7 +116,7 @@ class App extends Component {
 
             return (
               <div className="App">
-                <p>register</p>
+                <RegisterComponent switchComponent={this.switchComponent} register={this.register} />
               </div>
             )
 
