@@ -13,7 +13,42 @@ class App extends Component {
     this.state = {
       loggedIn: false,
       showLogin: true,
-      showRegister: false
+      showRegister: false,
+      userEmail: ''
+    }
+  }
+
+  // makes api call to log in the user
+  login = async (loginData) => {
+    console.log('login call with data:', loginData)
+    try {
+      // makes api call to try to login the user
+      const response = await fetch(process.env.REACT_APP_API_URL + '/api/v1/users/login', {
+        method: 'POST',
+        credentials: 'include',
+        body: JSON.stringify(loginData),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+
+      // parses the json response
+      const parsedResponse = await response.json()
+
+      // if the responses status code is 200
+      if (parsedResponse.status.code === 200) {
+        console.log('logged in successfully')
+        // logs in the user
+        this.setState({
+          loggedIn: true,
+          userEmail: parsedResponse.data.email
+        })
+      } else {
+        console.log('login failed')
+      }
+
+    } catch (error) {
+      console.log(error)
     }
   }
 
@@ -27,7 +62,7 @@ class App extends Component {
 
             return (
               <div className="App">
-                <LoginComponent />
+                <LoginComponent login={this.login} />
               </div>
             )
 

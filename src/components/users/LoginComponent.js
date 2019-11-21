@@ -18,17 +18,17 @@ class LoginComponent extends Component {
 		this.setState({
 			[e.target.name]: e.target.value
 		})
-		console.log('email:', this.state.email)
-		console.log('password:', this.state.password)
 	}
 
+	// handles the login form submission
 	handleSubmit = (e) => {
-		
+		console.log('submit called')
+		this.props.login(this.state)
 	}
 
 	render() {
 		return (
-			<Grid>
+			<Grid onSubmit={this.handleSubmit}>
 				<Grid.Row columns={3}>
 					<Grid.Column width={4}></Grid.Column>
 
