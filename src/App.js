@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import 'semantic-ui-css/semantic.min.css'
 import './App.css'
+import { Container } from 'semantic-ui-react'
 
 // component imports
 import LoginComponent from './components/users/LoginComponent.js'
@@ -108,7 +109,9 @@ class App extends Component {
           if (this.state.showLogin) {
             return (
               <div className="App">
-                <LoginComponent switchComponent={this.switchComponent} login={this.login} />
+                <Container className="form-container">
+                  <LoginComponent switchComponent={this.switchComponent} login={this.login} />
+                </Container>
               </div>
             )
 
@@ -116,7 +119,9 @@ class App extends Component {
           } else {
             return (
               <div className="App">
-                <RegisterComponent switchComponent={this.switchComponent} register={this.register} />
+                <Container className="form-container">
+                  <RegisterComponent switchComponent={this.switchComponent} register={this.register} />
+                </Container>
               </div>
             )
           }

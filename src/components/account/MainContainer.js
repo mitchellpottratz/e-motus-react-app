@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Menu, Segment } from 'semantic-ui-react'
+import { Menu, Segment, Container } from 'semantic-ui-react'
 
 // component imports 
 import AccountContainer from './AccountContainer.js'
@@ -22,15 +22,33 @@ class MainContainer extends Component {
 		console.log('handleMenuClick called')
 		console.log(e.target.text)
 
+		// text of the tab that was clicked
 		const tab = e.target.text
 
-		if (tab === 'New') {
+		if (tab === 'Account') {
+			this.setState({
+				showAccount: true,
+				showNew: false
+			})
+		} else if (tab === 'New') {
 			this.setState({
 				showAccount: false,
 				showNew: true
 			})
-		} 
+		}
+
 	}
+
+	// this method is passed to the NewPostContainer so from within
+	// that component that it is able to hide itselfs and display 
+	// the AccountContainer after the post is created
+	postCreated = () => {
+		this.setState({
+			showAccount: true,
+			showNew: false
+		})	
+	}
+
 
 	render() {
 
@@ -39,35 +57,35 @@ class MainContainer extends Component {
 			if (this.state.showAccount === true) {
 				return <AccountContainer user={this.props.user} />
 			} else if (this.state.showNew === true) {
-				return <NewPostContainer />
+				return <NewPostContainer postCreated={this.postCreated} />
 			}	
 		}
 
 		return (
 			<div>
 
-				{renderComponent()}
+					{renderComponent()}
 
 				<div>
 					<Menu tabular widths={4} className="bottom-menu">
 			        	<Menu.Item
 				            name='Account'
-				            active={this.state.activeComponent === 'account'}
+				            active={this.state.showAccount}
 				            onClick={this.handleMenuClick}
 			          	/>
 			            <Menu.Item
 				            name='Feed'
-				            active={this.state.activeComponent === 'feed'}
+				            active={this.state.showFeed}
 				            onClick={this.handleMenuClick}
 			          	/>
 			          	<Menu.Item
 				            name='Find'
-				            active={this.state.activeComponent === 'find'}
+				            active={this.state.showFind}
 				            onClick={this.handleMenuClick}
 			          	/>
 						<Menu.Item
 				            name='New'
-				            active={this.state.activeComponent === 'new'}
+				            active={this.state.showNew}
 				            onClick={this.handleMenuClick}
 			          	/>
 		        	</Menu>
