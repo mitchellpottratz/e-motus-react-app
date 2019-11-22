@@ -3,6 +3,7 @@ import { Menu, Segment } from 'semantic-ui-react'
 
 // component imports 
 import AccountContainer from './AccountContainer.js'
+import NewPostContainer from './posts/NewPostContainer.js'
 
 
 class MainContainer extends Component {
@@ -10,7 +11,8 @@ class MainContainer extends Component {
 		super()
 
 		this.state = {
-			activeComponent: 'account',
+			showAccount: true,
+			showNew: false
 		}
 	}
 
@@ -18,13 +20,33 @@ class MainContainer extends Component {
 	// component being rendered 
 	handleMenuClick = (e) => {
 		console.log('handleMenuClick called')
+		console.log(e.target.text)
+
+		const tab = e.target.text
+
+		if (tab === 'New') {
+			this.setState({
+				showAccount: false,
+				showNew: true
+			})
+		} 
 	}
 
 	render() {
+
+		// determines which component will be shown
+		const renderComponent = () => {
+			if (this.state.showAccount === true) {
+				return <AccountContainer user={this.props.user} />
+			} else if (this.state.showNew === true) {
+				return <NewPostContainer />
+			}	
+		}
+
 		return (
 			<div>
 
-				<AccountContainer user={this.props.user} />
+				{renderComponent()}
 
 				<div>
 					<Menu tabular widths={4} className="bottom-menu">
