@@ -3,6 +3,8 @@ import { Segment, Grid, Menu, Container, Header, Image } from 'semantic-ui-react
 
 // component imports
 import PostsList from './posts/PostsList.js'
+import LikesList from './likes/LikesList.js'
+
 
 
 class AccountContainer extends Component {
@@ -45,6 +47,8 @@ class AccountContainer extends Component {
 				showLikes: false,
 				showFollowers: false
 			})
+			// calls method to get all of the users posts
+			this.getUsersPosts()
 
 		// if likes tabs was clicked
 		} else if (tab === 'Likes') {
@@ -53,7 +57,9 @@ class AccountContainer extends Component {
 				showLikes: true,
 				showFollowers: false
 			})			
-	
+			// calls method to get all of the users liked posts
+			this.getUsersLikes()
+
 		// if followers tab was clicked
 		} else if (tab === 'Followers') {
 			this.setState({
@@ -99,7 +105,7 @@ class AccountContainer extends Component {
 
 			// parses the response
 			const parsedResponse = await response.json()
-			console.log(parsedResponse)
+			console.log('users post response:', parsedResponse)
 
 			// if the post was deleted successfully 
 			if (parsedResponse.status.code === 200) {
@@ -116,8 +122,33 @@ class AccountContainer extends Component {
 		}
 	} 
 
+	// gets all of the post the user has liked
 	getUsersLikes = async () => {
-		console.log('getUsersLikes called')
+		try {
+			// makes api call to get all of the post the user has liked
+			const response = await fetch(process.env.REACT_APP_API_URL + '/api/v1/likes/user', {
+				method: 'GET',
+				credentials: 'include',
+			})
+
+			// parses the response
+			const parsedResponse = await response.json()
+			console.log('users liked response:',parsedResponse)
+
+			// if the api call was successful
+			if (parsedResponse.status.code === 200) {
+				// add the liked post to the state
+				this.setState({
+					likes: parsedResponse.data
+				})
+			} else {
+				console.log('something went wrong')
+			}	
+
+		} catch (error) {
+			console.log(error);
+		}	
+
 	}
 
 	getUsersFollowers = async () => {
@@ -130,9 +161,14 @@ class AccountContainer extends Component {
 		// has open
 		const tabToRender = () => {
 			if (this.state.showPosts === true) {
-				return <PostsList posts={this.state.posts} header={'Your Posts'} userIsOwner={true} />
+				return <PostsList posts={this.state.posts}
+								  deletePost={this.deletePost}	
+								  header={'Your Posts'} 
+								  userIsOwner={true} />
 			} else if (this.state.showLikes === true) {
-				return 'show likes'
+				return <LikesList likes={this.state.likes} 
+								  header={'Your Likes'}
+								  userIsOwner={true} />
 			} else if (this.state.showFollowers === true) {
 				return 'show followers'
 			}
