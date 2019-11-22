@@ -17,7 +17,7 @@ class AccountContainer extends Component {
 			showLikes: false,
 			showFollowers: false,
 			posts: [], // holds the users posts
-			likes: [], // holds the users likes
+			likedPosts: [], // holds the users likes
 			comments: [] // holds the users comments
 		}
 
@@ -25,11 +25,6 @@ class AccountContainer extends Component {
 		// will always be open when the component is initially rendered
 		this.getUsersPosts()
 	}
-
-	// this is called everytime the component renders
-	// componentDidMount() {
-	
-	// }
 	
 	// handles the logic for switching between the 
 	// posts, likes and followers tabs
@@ -139,7 +134,7 @@ class AccountContainer extends Component {
 			if (parsedResponse.status.code === 200) {
 				// add the liked post to the state
 				this.setState({
-					likes: parsedResponse.data
+					likedPosts: parsedResponse.data
 				})
 			} else {
 				console.log('something went wrong')
@@ -148,7 +143,34 @@ class AccountContainer extends Component {
 		} catch (error) {
 			console.log(error);
 		}	
+	}
 
+	// deletes a like
+	deleteLike = async (postId) => {
+		try {
+			// makes api call to delete a like
+			const response = await fetch(process.env.REACT_APP_API_URL + '/api/v1/likes/' + postId, {
+				method: 'DELETE',
+				credentials: 'include',
+			})
+
+			// parses the response
+			const parsedResponse = await response.json()
+			console.log('users deleted like response:',parsedResponse)
+
+			// if the api call was successful
+			if (parsedResponse.status.code === 200) {
+				// remove the newly deleted like from the array
+				this.setState({
+					likedPosts: this.state.likedPosts.filter(post => post.id !== postId)
+				})
+			} else {
+				console.log('something went wrong')
+			}	
+
+		} catch (error) {
+			console.log(error);
+		}
 	}
 
 	getUsersFollowers = async () => {
@@ -166,8 +188,9 @@ class AccountContainer extends Component {
 								  header={'Your Posts'} 
 								  userIsOwner={true} />
 			} else if (this.state.showLikes === true) {
-				return <LikesList likes={this.state.likes} 
-								  header={'Your Likes'}
+				return <LikesList likedPosts={this.state.likedPosts} 
+								  deleteLike={this.deleteLike}
+								  header={'Your Liked Posts'}
 								  userIsOwner={true} />
 			} else if (this.state.showFollowers === true) {
 				return 'show followers'
