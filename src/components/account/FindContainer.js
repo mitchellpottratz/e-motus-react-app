@@ -10,9 +10,9 @@ class FindContainer extends Component {
 		super()
 
 		this.state = {
-			value: '',
-			isLoading: false,
-			results: []
+			value: '', // search value
+			results: [], // array of users 
+
 		}
 	}
 
@@ -61,11 +61,6 @@ class FindContainer extends Component {
 		} catch (error) {
 			console.log(error);
 		}
-	}
-
-	// make api call to follow a user
-	followUser = async () => {
-	
 	}
 
 	render() {
