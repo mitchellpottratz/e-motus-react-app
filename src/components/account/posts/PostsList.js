@@ -16,7 +16,7 @@ function PostsList(props) {
 			        </Card.Description>
 		      	</Card.Content>
 		      	<Card.Content extra>
-		      		<Button type="button" color="red">Delete</Button>
+		      		<Button type="button" color="red" onClick={ () => props.deletePost(post.id) }>Delete</Button>
 		      	</Card.Content>
     		</Card>
 		)

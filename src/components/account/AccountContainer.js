@@ -65,8 +65,6 @@ class AccountContainer extends Component {
 
 			// parses the response
 			const parsedResponse = await response.json()
-			
-			console.log(typeof this.state.posts)
 
 			// sets the posts returned from the api into the state
 			this.setState({
@@ -77,6 +75,34 @@ class AccountContainer extends Component {
 			console.log(error);
 		}	
 	}
+
+	// makes api call to delete a post
+	deletePost = async (postId) => {
+		try {
+			// makes api call to delete a post 
+			const response = await fetch(process.env.REACT_APP_API_URL + '/api/v1/posts/' + postId, {
+				method: 'DELETE',
+				credentials: 'include',
+			})
+
+			// parses the response
+			const parsedResponse = await response.json()
+			console.log(parsedResponse)
+
+			// if the post was deleted successfully 
+			if (parsedResponse.status.code === 200) {
+				// remove the deleted post from the array of posts in the state
+				this.setState({
+					posts: this.state.posts.filter(post => post.id != postId)
+				})
+			} else {
+				console.log('something went wrong')
+			}
+
+		} catch (error) {
+			console.log(error);
+		}
+	} 
 
 	getUsersLikes = async () => {
 		console.log('getUsersLikes called')
@@ -93,7 +119,7 @@ class AccountContainer extends Component {
 		const tabToRender = () => {
 			switch (this.state.activeTab) {
 				case 'posts':
-					return <PostsList posts={this.state.posts} />
+					return <PostsList posts={this.state.posts} deletePost={this.deletePost} />
 				case 'likes':
 					return 'likes container'
 				case 'comments':
