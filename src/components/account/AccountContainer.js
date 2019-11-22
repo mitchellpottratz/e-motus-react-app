@@ -11,46 +11,58 @@ class AccountContainer extends Component {
 		super()
 
 		this.state = {
-			activeTab: 'posts', // determines what tab to show the user
+			showPosts: true,
+			showLikes: false,
+			showFollowers: false,
 			posts: [], // holds the users posts
 			likes: [], // holds the users likes
 			comments: [] // holds the users comments
 		}
+
+		// makes api call to populate the users posts tab, because that tab
+		// will always be open when the component is initially rendered
+		this.getUsersPosts()
 	}
 
 	// this is called everytime the component renders
-	componentDidMount() {
-		// switch state determines which tab should be displayed
-		// between 'posts', 'likes' and comments, and also detemines
-		// which api should be called to get the correct content
-		switch (this.state.activeTab) {
-			case 'posts':
-				// this method gets all of the users post and renders them
-				this.getUsersPosts()
-				break
-			case 'likes':
-				// this method gets all of the posts the user has liked
-				this.getUsersLikes()
-				return 'likes container'
-			case 'comments':
-				// this method gets all of the users comments
-				this.getUserComments()
-				return 'comments container'
-		}
-	}
-
-	renderTab = () => {
-		
-	}
-
+	// componentDidMount() {
+	
+	// }
+	
 	// handles the logic for switching between the 
-	// 'posts', 'likes' and 'comments' tabs
-	handleTabClick = (tab) => {
+	// posts, likes and followers tabs
+	handleTabClick = (e) => {
 		console.log('handleTabClick called')
-		console.log(tab)
+		console.log(e.target.text)
 
-		// // set the state to the tab that was just clicked
-		// this.setState({})
+		// text of the tab that was clicked
+		const tab = e.target.text
+
+		// if posts tab was clicked
+		if (tab === 'Posts') {
+			this.setState({
+				showPosts: true,
+				showLikes: false,
+				showFollowers: false
+			})
+
+		// if likes tabs was clicked
+		} else if (tab === 'Likes') {
+			this.setState({
+				showPosts: false,
+				showLikes: true,
+				showFollowers: false
+			})			
+	
+		// if followers tab was clicked
+		} else if (tab === 'Followers') {
+			this.setState({
+				showPosts: false,
+				showLikes: false,
+				showFollowers: true
+			})
+		} 
+
 	}
 
 	// makes api call to get all of the users posts, then passes 
@@ -108,7 +120,7 @@ class AccountContainer extends Component {
 		console.log('getUsersLikes called')
 	}
 
-	getUsersComments = async () => {
+	getUsersFollowers = async () => {
 		console.log('getUsersComments called')
 	}
 
@@ -117,13 +129,12 @@ class AccountContainer extends Component {
 		// determines which content to show depending on what tab the user 
 		// has open
 		const tabToRender = () => {
-			switch (this.state.activeTab) {
-				case 'posts':
-					return <PostsList posts={this.state.posts} deletePost={this.deletePost} header={'Your Posts'} userIsOwner={true} />
-				case 'likes':
-					return 'likes container'
-				case 'comments':
-					return 'comments container'
+			if (this.state.showPosts === true) {
+				return <PostsList posts={this.state.posts} header={'Your Posts'} userIsOwner={true} />
+			} else if (this.state.showLikes === true) {
+				return 'show likes'
+			} else if (this.state.showFollowers === true) {
+				return 'show followers'
 			}
 		}
 
@@ -162,18 +173,18 @@ class AccountContainer extends Component {
 					<Menu tabular widths={4}>
 			        	<Menu.Item
 				            name='Posts'
-				            active={this.state.activeTab === 'posts'}
-				            onClick={this.handleTabClick('posts')}
+				            active={this.state.showPosts}
+				            onClick={this.handleTabClick}
 			          	/>
 			            <Menu.Item
 				            name='Likes'
-				            active={this.state.activeTab === 'likes'}
-				            onClick={this.handleTabClick('likes')}
+				            active={this.state.showLikes}
+				            onClick={this.handleTabClick}
 			          	/>
 			          	<Menu.Item
-				            name='Comments'
-				            active={this.state.activeTab === 'comments'}
-				            onClick={this.handleTabClick('comments')}
+				            name='Followers'
+				            active={this.state.showFollowers}
+				            onClick={this.handleTabClick}
 			          	/>
 			        </Menu>
 
