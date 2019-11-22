@@ -1,6 +1,9 @@
 import React from 'react'
 import { Grid, Card, Image, Button } from 'semantic-ui-react'
 
+// component imports 
+import FollowButtons from './follows/FollowButtons.js'
+
 
 function UsersList(props) {
 
@@ -22,7 +25,7 @@ function UsersList(props) {
         			</Card.Description>
  				</Card.Content>
  				<Card.Content extra>
- 					<Button type="button" color="blue">Follow</Button>
+ 					<FollowButtons userId={user.id} />
  				</Card.Content>
 			</Card>
 		)
