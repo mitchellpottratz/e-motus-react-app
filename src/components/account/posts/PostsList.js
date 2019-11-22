@@ -16,7 +16,14 @@ function PostsList(props) {
 			        </Card.Description>
 		      	</Card.Content>
 		      	<Card.Content extra>
-		      		<Button type="button" color="red" onClick={ () => props.deletePost(post.id) }>Delete</Button>
+		      		{
+		      			props.userIsOwner === true
+		      			?
+		      			<Button type="button" color="red" onClick={ () => props.deletePost(post.id) }>Delete</Button>
+		      			:
+
+		      			<Button icon='thumbs up outline' color="blue" onClick={ () => props.likePost(post.id) } />
+		      		}
 		      	</Card.Content>
     		</Card>
 		)
@@ -25,7 +32,7 @@ function PostsList(props) {
 	return (
 		<div>
 			<Header as="h3">
-				Your Posts
+				{props.header}
 			</Header>
 			<Card.Group centered>
 				{posts}

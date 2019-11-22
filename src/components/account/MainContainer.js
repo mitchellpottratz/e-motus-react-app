@@ -5,6 +5,7 @@ import { Menu, Segment, Container } from 'semantic-ui-react'
 import AccountContainer from './AccountContainer.js'
 import NewPostContainer from './posts/NewPostContainer.js'
 import FindContainer from './FindContainer.js'
+import FeedContainer from './FeedContainer.js'
 
 
 class MainContainer extends Component {
@@ -13,6 +14,7 @@ class MainContainer extends Component {
 
 		this.state = {
 			showAccount: true,
+			showFeed: false,
 			showFind: false,
 			showNew: false
 		}
@@ -31,13 +33,23 @@ class MainContainer extends Component {
 		if (tab === 'Account') {
 			this.setState({
 				showAccount: true,
+				showFeed: false,
 				showFind: false,
 				showNew: false
 			})
+		// if the feed tab was clicked show the FeedContainer
+		} else if (tab === 'Feed') {
+			this.setState({
+				showAccount: false,
+				showFeed: true,
+				showFind: false,
+				showNew: false
+			})			
 		// if the find tab was clicked show the FindContainer
 		} else if (tab === 'Find') {
 			this.setState({
 				showAccount: false,
+				showFeed: false,
 				showFind: true,
 				showNew: false
 			})
@@ -45,6 +57,7 @@ class MainContainer extends Component {
 		} else if (tab === 'New') {
 			this.setState({
 				showAccount: false,
+				showFeed: false,
 				showFind: false,
 				showNew: true
 			})
@@ -68,6 +81,8 @@ class MainContainer extends Component {
 		const renderComponent = () => {
 			if (this.state.showAccount === true) {
 				return <AccountContainer user={this.props.user} />
+			} else if (this.state.showFeed === true) {
+				return <FeedContainer /> 
 			} else if (this.state.showFind === true) {
 				return <FindContainer />
 			} else if (this.state.showNew === true) {

@@ -119,7 +119,7 @@ class AccountContainer extends Component {
 		const tabToRender = () => {
 			switch (this.state.activeTab) {
 				case 'posts':
-					return <PostsList posts={this.state.posts} deletePost={this.deletePost} />
+					return <PostsList posts={this.state.posts} deletePost={this.deletePost} header={'Your Posts'} userIsOwner={true} />
 				case 'likes':
 					return 'likes container'
 				case 'comments':
