@@ -12,13 +12,12 @@ class FeedContainer extends Component {
 
 		this.state = {
 			posts: [],
-			usersLikes: [] 
 		}
 	}
 
 	// called after every time the component renders
 	componentDidMount() {
-		this.getPosts()
+		this.getPosts() // gets posts from other users the user follows
 	}
 
 	// gets all of the posts from users the current users follows
@@ -45,56 +44,59 @@ class FeedContainer extends Component {
 		}
 	}
 
-	getUsersLikes = async () => {
-		try {
-			// makes call to api to gets all of the users likes
-			const response = await fetch(process.env.REACT_APP_API_URL + '/api/v1/likes/user', {
-				method: 'GET',
-				credentials: 'include',
-			})
+	// // gets all of the posts the user has liked
+	// getUsersLikedPostIds = async () => {
+	// 	try {
+	// 		// makes call to api to gets all of the posts the user has liked
+	// 		const response = await fetch(process.env.REACT_APP_API_URL + '/api/v1/likes/user', {
+	// 			method: 'GET',
+	// 			credentials: 'include',
+	// 		})
 
-			// parses the response
-			const parsedResponse = await response.json()
+	// 		// parses the response
+	// 		const parsedResponse = await response.json()
 
-			// set the posts in the state
-			this.setState({
-				usersLikes: parsedResponse.data
-			})
-			console.log(this.state.usersLikes)
+	// 		// set the posts in the state
+	// 		this.setState({
+	// 			usersLikedPostIds: parsedResponse.data.map(post => post.id)
+	// 		})
+	// 		console.log(this.state.usersLikedPostIds)
 
-		} catch (error) {
-			console.log(error);
-		}
-	}
+	// 	} catch (error) {
+	// 		console.log(error);
+	// 	}
+	// }
 
-	// likes a post 
-	likePost = async (postId) => {
-		try {
-			// makes call to the api like a post
-			const response = await fetch(process.env.REACT_APP_API_URL + '/api/v1/likes/', {
-				method: 'POST',
-				credentials: 'include',
-				body: JSON.stringify({'postId': postId}),
-				headers: {
-					'Content-Type': 'application/json'
-				}
-			})
+	// // likes a post 
+	// likePost = async (postId) => {
+	// 	try {
+	// 		// makes call to the api like a post
+	// 		const response = await fetch(process.env.REACT_APP_API_URL + '/api/v1/likes/', {
+	// 			method: 'POST',
+	// 			credentials: 'include',
+	// 			body: JSON.stringify({'postId': postId}),
+	// 			headers: {
+	// 				'Content-Type': 'application/json'
+	// 			}
+	// 		})
 
-			// parses the response
-			const parsedResponse = await response.json()
-			console.log(parsedResponse)
+	// 		// parses the response
+	// 		const parsedResponse = await response.json()
+	// 		console.log(parsedResponse)
 
 
-		} catch (error) {
-			console.log(error);
-		}
-	}
+	// 	} catch (error) {
+	// 		console.log(error);
+	// 	}
+	// }
 
 	render() {
 		return (
 			<Container>
 				<Segment>
-					<PostsList posts={this.state.posts} header={'Your Feed'} userIsOwner={false} likePost={this.likePost} />
+					<PostsList posts={this.state.posts}
+							   header={'Your Feed'}
+							   userIsOwner={false} />
 				</Segment>
 			</Container>
 		)

@@ -1,6 +1,9 @@
 import React from 'react'
 import { Grid, Card, Header, Button } from 'semantic-ui-react'
 
+// component imports 
+import LikeButtons from '../likes/LikeButtons.js'
+
 
 function PostsList(props) {
 
@@ -21,8 +24,7 @@ function PostsList(props) {
 		      			?
 		      			<Button type="button" color="red" onClick={ () => props.deletePost(post.id) }>Delete</Button>
 		      			:
-
-		      			<Button icon='thumbs up outline' color="blue" onClick={ () => props.likePost(post.id) } />
+		      			<LikeButtons postId={post.id} />
 		      		}
 		      	</Card.Content>
     		</Card>
