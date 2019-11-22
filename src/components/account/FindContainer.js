@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
-import { Segment, Container, Search, Form } from 'semantic-ui-react'
+import { Segment, Container, Search, Form, Card } from 'semantic-ui-react'
+
+// component imports 
+import UsersList from './UsersList.js'
 
 
 class FindContainer extends Component {
@@ -16,7 +19,7 @@ class FindContainer extends Component {
 	// handles the change for the search input
 	handleChange = (e) => {
 		
-		// sets the state for the search property
+		// sets the state for the value property
 		this.setState({
 			value: e.target.value
 		})
@@ -40,7 +43,19 @@ class FindContainer extends Component {
 
 			// parses the response
 			const parsedResponse = await response.json()
-			console.log(parsedResponse)
+
+			// if the api call was successful
+			// if (parsedResponse.status.code === 200) {
+				// set the results in the state
+				this.setState({
+					results: [...parsedResponse.data]
+				})
+
+			// if there was an error in the api call
+			// } else {
+			// 	console.log('error')
+			// }
+			console.log('results:', this.state.results)
 
 
 		} catch (error) {
@@ -48,10 +63,18 @@ class FindContainer extends Component {
 		}
 	}
 
+	// make api call to follow a user
+	followUser = async () => {
+	
+	}
+
 	render() {
 		return (
 			<Container>
 				<Form.Input type="text" value={this.state.value} onChange={this.handleChange} />
+
+				{this.state.results.length > 0 ? <UsersList users={this.state.results} /> : null}
+				
 			</Container>
 		)
 	}
