@@ -4,6 +4,7 @@ import { Segment, Grid, Menu, Container, Header, Image } from 'semantic-ui-react
 // component imports
 import PostsList from './posts/PostsList.js'
 import LikesList from './likes/LikesList.js'
+import FollowersList from './follows/FollowersList.js'
 
 
 
@@ -174,7 +175,6 @@ class AccountContainer extends Component {
 
 	// gets all of the users followers
 	getUsersFollowers = async () => {
-		console.log('getUsersFollowers called')
 		try {
 			// makes call to the api to get all of the users follower
 			const response = await fetch(process.env.REACT_APP_API_URL + '/api/v1/follows/followers', {
@@ -184,15 +184,13 @@ class AccountContainer extends Component {
 
 			// parses the response
 			const parsedResponse = await response.json()
-			console.log(parsedResponse)
 
 			// if the response was successful
 			if (parsedResponse.status.code === 200) {
-				// set the users followers in the state
+				// sets the users followers in the state
 				this.setState({
 					followers: parsedResponse.data
 				})
-				console.log('followers in state:', this.state.followers)
 			} else {
 				console.log('error')
 			}
@@ -202,23 +200,34 @@ class AccountContainer extends Component {
 		}
 	}
 
+	// unfollows a user
+	unfollowUser = async () => {
+		console.log('unfollowUser called')	
+	}
+
 	render() {
 
 		// determines which content to show depending on what tab the user 
 		// has open
 		const tabToRender = () => {
+
 			if (this.state.showPosts === true) {
 				return <PostsList posts={this.state.posts}
 								  deletePost={this.deletePost}	
 								  header={'Your Posts'} 
 								  userIsOwner={true} />
+
 			} else if (this.state.showLikes === true) {
 				return <LikesList likedPosts={this.state.likedPosts} 
 								  deleteLike={this.deleteLike}
 								  header={'Your Liked Posts'}
 								  userIsOwner={true} />
+
 			} else if (this.state.showFollowers === true) {
-				return 'show followers'
+				return <FollowersList followers={this.state.followers}
+									  unfollower={this.unfollowUser}
+									  header={'Your Followers'}
+									  userIsOwner={true} />
 			}
 		}
 
