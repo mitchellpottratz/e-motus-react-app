@@ -1,6 +1,10 @@
 import React, { Component } from 'react'
 import { Container, Grid, Segment, Form, Button, Label } from 'semantic-ui-react'
 
+// emoji picker component
+import 'emoji-mart/css/emoji-mart.css'
+import { Picker } from 'emoji-mart'
+
 
 class NewPostContainer extends Component {
 	constructor() {
