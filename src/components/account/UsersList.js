@@ -19,10 +19,8 @@ function UsersList(props) {
           				src='https://react.semantic-ui.com/images/avatar/large/steve.jpg'
         			/>
        	 			<Card.Header>{user.first_name} {user.last_name}</Card.Header>
-			        <Card.Meta>something here</Card.Meta>
-			        <Card.Description>
-          				something else here
-        			</Card.Description>
+			        <Card.Meta>@{user.username}</Card.Meta>
+			        <Card.Meta>{user.followers.length} Followers</Card.Meta>
  				</Card.Content>
  				<Card.Content extra>
  					<FollowButtons userId={user.id} />
