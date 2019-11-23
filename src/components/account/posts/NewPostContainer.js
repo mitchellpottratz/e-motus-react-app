@@ -23,7 +23,17 @@ class NewPostContainer extends Component {
 		this.setState({
 			[e.target.name]: e.target.value
 		})
-		console.log(this.state)
+	}
+
+	// adds an emoji that was selected from the emoji picker
+	// and adds it to the emoji field in the state
+	addEmoji = (e) => {
+		console.log(e.native)
+    	const emoji = e.native;
+    	this.setState({
+      		emoji: this.state.emoji + emoji
+    	})
+    	console.log('state after addEmoji:', this.state.addEmoji)
 	}
 
 	// calls the api to create a new post
@@ -41,7 +51,6 @@ class NewPostContainer extends Component {
 
 			// parsed the response 
 			const parsedResponse = await response.json()
-			console.log(parsedResponse)
 
 			// if the new post was successfully created
 			if (parsedResponse.status.code === 201) {
@@ -74,23 +83,27 @@ class NewPostContainer extends Component {
 														placeholder='Whats on your mind?' 
 														onChange={this.handleChange}/>	
 									</Form.Field>
+						
+									<Form.Field>
+										<Form.Input type="text"
+													label="Emotion"
+													name="emotiion"
+													placeholder="How you're feeling..."
+													onChange={this.handleChange} />
+									</Form.Field>
 
-									<Form.Group widths="equal">
-										<Form.Field>
-											<Form.Input type="text"
-														label="Emotion"
-														name="emotiion"
-														placeholder="How you're feeling..."
-														onChange={this.handleChange} />
-										</Form.Field>
-										<Form.Field>
-											<Form.Input type="text"
-														label="Emoji"
-													    name="emoji"
-													    placeholder="Emoji"
-													    onChange={this.handleChange} />
-										</Form.Field>
-									</Form.Group>
+									<Form.Field>
+
+										<Form.Input type="text"
+													label="Emoji"
+												    name="emoji"
+												    placeholder="Emoji"
+												    value={this.state.emoji}
+												    onChange={this.handleChange} />
+												    
+										<Picker onSelect={this.addEmoji} />
+
+									</Form.Field>
 
 									<Button type="submit" color="blue">Post</Button>
 								</Form>
