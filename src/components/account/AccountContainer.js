@@ -189,7 +189,10 @@ class AccountContainer extends Component {
 			// if the response was successful
 			if (parsedResponse.status.code === 200) {
 				// set the users followers in the state
-				console.log('response was a successful')
+				this.setState({
+					followers: parsedResponse.data
+				})
+				console.log('followers in state:', this.state.followers)
 			} else {
 				console.log('error')
 			}
