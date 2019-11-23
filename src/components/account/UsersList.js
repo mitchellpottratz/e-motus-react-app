@@ -32,7 +32,7 @@ function UsersList(props) {
 	})
 
 	return (
-		<Card.Group>	
+		<Card.Group id="search-results-cards">	
 			{userCards}
 		</Card.Group>
 	)

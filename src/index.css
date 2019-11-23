@@ -32,7 +32,8 @@ code {
   min-height: 55vh;
 }
 
-#feed-container {
+#feed-container,
+#find-container {
     margin-top: 3%;
     margin-bottom: 7%;
 }
@@ -41,6 +42,18 @@ code {
 .feed-segment {
   min-height: 100vh!important;
 
+}
+
+#find-segment {
+  min-height: 100vh;
+}
+
+#find-segment .input {
+  width: 30%!important;
+}
+
+#search-results-cards {
+  margin-top: 5%;
 }
 
 .small-margin-header {

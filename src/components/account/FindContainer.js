@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Segment, Container, Search, Form, Card } from 'semantic-ui-react'
+import { Segment, Container, Form, Card, Dimmer, Loader } from 'semantic-ui-react'
 
 // component imports 
 import UsersList from './UsersList.js'
@@ -12,6 +12,7 @@ class FindContainer extends Component {
 		this.state = {
 			value: '', // search value
 			results: [], // array of users 
+			isLoading: false // if the search results are still loading
 
 		}
 	}
@@ -31,6 +32,10 @@ class FindContainer extends Component {
 	// makes an api call to get the search results 
 	getResults = async () => {
 		try {
+
+			// change isLoading to true so the loading icon shows while the api call is executing
+			this.setState({isLoading: true})
+
 			// makes api call to get the search results
 			const response = await fetch(process.env.REACT_APP_API_URL + '/api/v1/users/find', {
 				method: 'POST',
@@ -44,19 +49,12 @@ class FindContainer extends Component {
 			// parses the response
 			const parsedResponse = await response.json()
 
-			// if the api call was successful
-			// if (parsedResponse.status.code === 200) {
-				// set the results in the state
-				this.setState({
-					results: [...parsedResponse.data]
-				})
-
-			// if there was an error in the api call
-			// } else {
-			// 	console.log('error')
-			// }
-			console.log('results:', this.state.results)
-
+			// set the search results in that state and isLoading back to false
+			// to display the results and hide the loading icon
+			this.setState({
+				results: [...parsedResponse.data],
+				isLoading: false
+			})
 
 		} catch (error) {
 			console.log(error);
@@ -65,10 +63,23 @@ class FindContainer extends Component {
 
 	render() {
 		return (
-			<Container>
-				<Form.Input type="text" value={this.state.value} onChange={this.handleChange} />
+			<Container id="find-container">
 
-				{this.state.results.length > 0 ? <UsersList users={this.state.results} /> : null}
+				<Segment id="find-segment">
+
+					<Form.Input type="text"
+								id="search-input"
+								value={this.state.value}
+						 		onChange={this.handleChange} 
+						 		placeholder="Search For Other Users..." />
+
+					 { this.state.isLoading === true 
+					   ?
+        			   <Loader active />
+					   : 
+					   <UsersList users={this.state.results} /> } 
+
+				</Segment>
 				
 			</Container>
 		)
