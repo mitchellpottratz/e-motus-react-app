@@ -79,10 +79,16 @@ class AccountContainer extends Component {
 			// parses the response
 			const parsedResponse = await response.json()
 
-			// sets the posts returned from the api into the state
-			this.setState({
-				posts: parsedResponse.data
-			})
+			// if the api call was successful
+			if (parsedResponse.status.code === 200) {
+				// sets the posts returned from the api into the state
+				this.setState({
+					posts: parsedResponse.data
+				})
+
+			} else {
+				console.log('error')
+			}
 
 		} catch (error) {
 			console.log(error);
@@ -262,7 +268,7 @@ class AccountContainer extends Component {
 					</Grid>
 				</Segment>
 
-				<Segment>
+				<Segment id="tab-segment">
 					<Menu tabular widths={4}>
 			        	<Menu.Item
 				            name='Posts'

@@ -100,13 +100,13 @@ class LikeButtons extends Component {
 		if (this.state.usersLikedPostIds.includes(this.props.postId)) {
 
 			// show the button that shows they already liked the pst
-			return (<Button color="grey" onClick={ () => this.removeLike(this.props.postId) }>Liked</Button>)
+			return (<Button floated="right" color="grey" onClick={ () => this.removeLike(this.props.postId) }>Liked</Button>)
 
 		// if the post has not already been liked by the user
 		} else {
 
 			// show the button that shows they havent already liked the post
-			return (<Button icon='thumbs up outline' color="blue" onClick={ () => this.likePost(this.props.postId) } />)
+			return (<Button floated="right" icon='thumbs up outline' color="blue" onClick={ () => this.likePost(this.props.postId) } />)
 		}
 
 	}

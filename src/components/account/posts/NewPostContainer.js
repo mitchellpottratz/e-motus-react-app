@@ -28,12 +28,10 @@ class NewPostContainer extends Component {
 	// adds an emoji that was selected from the emoji picker
 	// and adds it to the emoji field in the state
 	addEmoji = (e) => {
-		console.log(e.native)
     	const emoji = e.native;
     	this.setState({
       		emoji: this.state.emoji + emoji
     	})
-    	console.log('state after addEmoji:', this.state.addEmoji)
 	}
 
 	// calls the api to create a new post
@@ -87,7 +85,7 @@ class NewPostContainer extends Component {
 									<Form.Field>
 										<Form.Input type="text"
 													label="Emotion"
-													name="emotiion"
+													name="emotion"
 													placeholder="How you're feeling..."
 													onChange={this.handleChange} />
 									</Form.Field>
@@ -100,7 +98,7 @@ class NewPostContainer extends Component {
 												    placeholder="Emoji"
 												    value={this.state.emoji}
 												    onChange={this.handleChange} />
-												    
+
 										<Picker onSelect={this.addEmoji} />
 
 									</Form.Field>

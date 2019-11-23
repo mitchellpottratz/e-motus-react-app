@@ -1,5 +1,5 @@
 import React from 'react'
-import { Grid, Card, Header, Button } from 'semantic-ui-react'
+import { Grid, Card, Header, Button, Icon } from 'semantic-ui-react'
 
 // component imports 
 import LikeButtons from '../likes/LikeButtons.js'
@@ -12,20 +12,33 @@ function PostsList(props) {
 		return (
 			<Card fluid key={post.id}>
 		      	<Card.Content>
-			        <Card.Header>{post.user.username}</Card.Header>
-			        <Card.Meta>{post.timestamp}</Card.Meta>
-			        <Card.Description>
-			        	{post.content}
-			        </Card.Description>
-		      	</Card.Content>
-		      	<Card.Content extra>
+
 		      		{
 		      			props.userIsOwner === true
 		      			?
-		      			<Button type="button" color="red" onClick={ () => props.deletePost(post.id) }>Delete</Button>
+		      			<Button floated="right" type="button" color="red" onClick={ () => props.deletePost(post.id) }>Delete</Button>
 		      			:
-		      			<LikeButtons postId={post.id} />
+						<LikeButtons postId={post.id} />
 		      		}
+		      
+		      		<Card.Header>{post.user.first_name} {post.user.last_name}</Card.Header>
+			        <Card.Meta>@{post.user.username}</Card.Meta>
+			        <Card.Meta>{post.timestamp}</Card.Meta>
+			        <Card.Description id="post-description-contianer">
+			        	<div id="content-card-container">
+			        		<p>{post.content}</p>
+			        	</div>
+
+			        	<div id="emotion-emoji-card-container">
+			        		<strong><p>{post.emotion}</p></strong>
+							<p>{post.emoji}</p>
+						</div>
+			        </Card.Description>
+		      	</Card.Content>
+		      	<Card.Content id="post-card-extra-content" extra>
+		      		<Card.Meta>
+		      			{post.likes.length} Likes
+		      		</Card.Meta>
 		      	</Card.Content>
     		</Card>
 		)
