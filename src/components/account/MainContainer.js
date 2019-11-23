@@ -93,10 +93,10 @@ class MainContainer extends Component {
 		return (
 			<div>
 
-					{renderComponent()}
+				{renderComponent()}
 
 				<div>
-					<Menu tabular widths={4} className="bottom-menu">
+					<Menu color={'blue'} inverted widths={4} className="bottom-menu">
 			        	<Menu.Item
 				            name='Account'
 				            active={this.state.showAccount}

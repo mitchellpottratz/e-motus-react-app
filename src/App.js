@@ -56,6 +56,7 @@ class App extends Component {
 
       // parses the json response
       const parsedResponse = await response.json()
+      console.log(parsedResponse)
 
       // if the user was successfully logged in, log in the user
       if (parsedResponse.status.code === 200) {

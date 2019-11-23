@@ -18,7 +18,7 @@ class AccountContainer extends Component {
 			showFollowers: false,
 			posts: [], // holds the users posts
 			likedPosts: [], // holds the users likes
-			comments: [] // holds the users comments
+			followers: [] // holds the users comments
 		}
 
 		// makes api call to populate the users posts tab, because that tab
@@ -29,9 +29,6 @@ class AccountContainer extends Component {
 	// handles the logic for switching between the 
 	// posts, likes and followers tabs
 	handleTabClick = (e) => {
-		console.log('handleTabClick called')
-		console.log(e.target.text)
-
 		// text of the tab that was clicked
 		const tab = e.target.text
 
@@ -62,6 +59,8 @@ class AccountContainer extends Component {
 				showLikes: false,
 				showFollowers: true
 			})
+			// calls methods to get all of the users followers
+			this.getUsersFollowers()
 		} 
 
 	}
@@ -173,8 +172,31 @@ class AccountContainer extends Component {
 		}
 	}
 
+	// gets all of the users followers
 	getUsersFollowers = async () => {
-		console.log('getUsersComments called')
+		console.log('getUsersFollowers called')
+		try {
+			// makes call to the api to get all of the users follower
+			const response = await fetch(process.env.REACT_APP_API_URL + '/api/v1/follows/followers', {
+				method: 'GET',
+				credentials: 'include',
+			})
+
+			// parses the response
+			const parsedResponse = await response.json()
+			console.log(parsedResponse)
+
+			// if the response was successful
+			if (parsedResponse.status.code === 200) {
+				// set the users followers in the state
+				console.log('response was a successful')
+			} else {
+				console.log('error')
+			}
+
+		} catch (error) {
+			console.log(error);
+		}
 	}
 
 	render() {

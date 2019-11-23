@@ -19,14 +19,22 @@ code {
 
 .account-header-segment {
 	padding: 20px 5%!important;
-}
-
-.small-margin-header {
-	margin: 5px 0!important;
+  min-height: 20vh;
+  max-height: 20vh;
 }
 
 .tab-container {
 	padding: 20px 5%!important;
+  min-height: 55vh;
+}
+
+#feed-container,
+.feed-segment {
+  min-height: 100vh!important;
+}
+
+.small-margin-header {
+	margin: 5px 0!important;
 }
 
 .form-container {
