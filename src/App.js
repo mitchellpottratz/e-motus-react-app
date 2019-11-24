@@ -19,7 +19,9 @@ class App extends Component {
       showRegister: false,
       user: null,
 
-      loginError: false // if there was an error logging in
+      loginError: false, // if there was an error logging in
+      usernameExists: false, // if the user provided a taken username
+      emailExists: false // if the user provided a taken email
     }
   }
 
@@ -83,6 +85,13 @@ class App extends Component {
 
   // makes api call to register a new user
   register = async (registerData) => {
+
+    // clear the username and email error properties in the state
+    this.setState({
+      usernameExists: false,
+      emailExists: false
+    })
+
     try {
       // makes the api call
       const response = await fetch(process.env.REACT_APP_API_URL + '/api/v1/users/register', {
@@ -103,7 +112,23 @@ class App extends Component {
           loggedIn: true,
           user: parsedResponse.data
         })
-      } 
+
+      // if there was an error 
+      } else {
+
+        // if the username already exists
+        if (parsedResponse.status.field_error === 'username') {
+
+          this.setState({
+            usernameExists: true
+          })
+
+        // if the email already exists
+        } else if (parsedResponse.status.field_error === 'email')
+          this.setState({
+            emailExists: true
+          })
+        }
 
     } catch (error) {
       console.log(error);
@@ -127,12 +152,15 @@ class App extends Component {
               </div>
             )
 
-          // if true this will reander the RegisterComponent
+          // if true this will render the RegisterComponent
           } else {
             return (
               <div className="App">
                 <Container className="form-container">
-                  <RegisterComponent switchComponent={this.switchComponent} register={this.register} />
+                  <RegisterComponent switchComponent={this.switchComponent} 
+                                     register={this.register}
+                                     emailExists={this.state.emailExists}
+                                     usernameExists={this.state.usernameExists} />
                 </Container>
               </div>
             )
