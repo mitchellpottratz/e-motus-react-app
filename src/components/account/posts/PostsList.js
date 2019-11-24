@@ -18,7 +18,7 @@ function PostsList(props) {
 		      			?
 		      			<Button floated="right" type="button" color="red" onClick={ () => props.deletePost(post.id) }>Delete</Button>
 		      			:
-						<LikeButtons postId={post.id} />
+						<LikeButtons likeCount={post.likes.length} postId={post.id} />
 		      		}
 		      
 		      		<Card.Header>{post.user.first_name} {post.user.last_name}</Card.Header>

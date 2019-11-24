@@ -1,14 +1,15 @@
 import React, { Component } from 'react'
-import { Button } from 'semantic-ui-react'
+import { Button, Icon } from 'semantic-ui-react'
 
 
 class LikeButtons extends Component {
 
-	constructor() {
-		super()
+	constructor(props) {
+		super(props)
 
 		this.state = {
-			usersLikedPostIds: []
+			usersLikedPostIds: [],
+			likeCount: parseInt(props.likeCount)
 		}
 	}
 
@@ -59,10 +60,9 @@ class LikeButtons extends Component {
 
 			// adds the liked post to the state
 			this.setState({
-				usersLikedPostIds: [...this.state.usersLikedPostIds, postId]
+				usersLikedPostIds: [...this.state.usersLikedPostIds, postId],
+				likeCount: this.state.likeCount += 1
 			})
-
-			console.log(this.state.usersLikedPostIds)
 
 		} catch (error) {
 			console.log(error);
@@ -84,10 +84,9 @@ class LikeButtons extends Component {
 
 			// adds the liked post to the state
 			this.setState({
-				usersLikedPostIds: this.state.usersLikedPostIds.filter(id => id !== postId)
+				usersLikedPostIds: this.state.usersLikedPostIds.filter(id => id !== postId),
+				likeCount: this.state.likeCount -= 1
 			})
-
-			console.log(this.state.getUsersLikedPostIds)
 
 		} catch (error) {
 			console.log(error);
@@ -95,18 +94,36 @@ class LikeButtons extends Component {
 	}
 
 	render() {
-
 		// if the post is already liked by the user
 		if (this.state.usersLikedPostIds.includes(this.props.postId)) {
 
-			// show the button that shows they already liked the pst
-			return (<Button floated="right" color="grey" onClick={ () => this.removeLike(this.props.postId) }>Liked</Button>)
+			// show the button that shows they already liked the post
+			return (
+				<Button
+				  floated="right"
+			      content='Liked'
+			      icon='heart'
+			      label={{ as: 'a', basic: true, pointing: 'right', content: this.state.likeCount }}
+			      labelPosition='left'
+			      onClick={() => this.removeLike(this.props.postId) }
+    			/>
+			)
 
 		// if the post has not already been liked by the user
 		} else {
 
 			// show the button that shows they havent already liked the post
-			return (<Button floated="right" icon='thumbs up outline' color="blue" onClick={ () => this.likePost(this.props.postId) } />)
+			return (
+				<Button
+				  floated="right"
+			      content='Like'
+			      icon='heart'
+			      color="red"
+			      label={{ as: 'a', basic: true, pointing: 'right', content: this.state.likeCount }}
+			      labelPosition='left'
+			      onClick={() => this.likePost(this.props.postId) }
+    			/>
+			)
 		}
 
 	}
