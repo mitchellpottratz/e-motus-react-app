@@ -15,6 +15,7 @@ code {
 .bottom-menu {
 	position: fixed;
 	bottom: 0;
+  z-index: 100;
 }
 
 .account-header-segment {
@@ -85,6 +86,22 @@ code {
   justify-content: space-between;
 }
 
+#follow-btns-container {
+  padding-top: 10px!important;
+}
+
+
+@media only screen and (max-width: 640px) {
+  .tab-container {
+    padding: 20px 2.5%!important;
+  }
+}
+
+@media only screen and (max-width: 485px) {
+  .tab-container {
+    padding: 20px 0%!important;
+  }
+}
 
 
 

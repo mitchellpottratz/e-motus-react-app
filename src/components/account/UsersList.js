@@ -21,7 +21,7 @@ function UsersList(props) {
        	 			<Card.Header>{user.first_name} {user.last_name}</Card.Header>
 			        <Card.Meta>@{user.username}</Card.Meta>
  				</Card.Content>
- 				<Card.Content extra>
+ 				<Card.Content id="follow-btns-container" extra>
  					<FollowButtons userId={user.id} followersCount={user.followers.length} />
  				</Card.Content>
 			</Card>

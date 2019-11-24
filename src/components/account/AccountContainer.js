@@ -14,12 +14,13 @@ class AccountContainer extends Component {
 		super()
 
 		this.state = {
-			showPosts: true,
-			showLikes: false,
-			showFollowers: false,
+			showPosts: true, // whether to show the PostList tab
+			showLikes: false, // whether to show the LikesList tab
+			showFollowers: false, // whether to show the FollowersList tab
+
 			posts: [], // holds the users posts
 			likedPosts: [], // holds the users likes
-			followers: [] // holds the users comments
+			followers: [], // holds the users comments
 		}
 
 		// makes api call to populate the users posts tab, because that tab
@@ -106,7 +107,6 @@ class AccountContainer extends Component {
 
 			// parses the response
 			const parsedResponse = await response.json()
-			console.log('users post response:', parsedResponse)
 
 			// if the post was deleted successfully 
 			if (parsedResponse.status.code === 200) {
@@ -134,7 +134,6 @@ class AccountContainer extends Component {
 
 			// parses the response
 			const parsedResponse = await response.json()
-			console.log('users liked response:',parsedResponse)
 
 			// if the api call was successful
 			if (parsedResponse.status.code === 200) {
@@ -162,7 +161,6 @@ class AccountContainer extends Component {
 
 			// parses the response
 			const parsedResponse = await response.json()
-			console.log('users deleted like response:',parsedResponse)
 
 			// if the api call was successful
 			if (parsedResponse.status.code === 200) {
@@ -193,10 +191,12 @@ class AccountContainer extends Component {
 
 			// if the response was successful
 			if (parsedResponse.status.code === 200) {
+
 				// sets the users followers in the state
 				this.setState({
 					followers: parsedResponse.data
 				})
+
 			} else {
 				console.log('error')
 			}
@@ -206,10 +206,6 @@ class AccountContainer extends Component {
 		}
 	}
 
-	// unfollows a user
-	unfollowUser = async () => {
-		console.log('unfollowUser called')	
-	}
 
 	render() {
 
@@ -250,7 +246,7 @@ class AccountContainer extends Component {
 								</Header>
 							</Grid.Column>
 
-							<Grid.Column width={6}>
+							<Grid.Column width={13}>
 								<Container floated="left">
 									<Header as="h1" className="small-margin-header">
 										{this.props.user.first_name} {this.props.user.last_name}
@@ -259,7 +255,7 @@ class AccountContainer extends Component {
 										@{this.props.user.username}
 									</Header>
 									<Header as="h5" className="small-margin-header">
-										followers count here
+										{this.props.user.followers.length} Followers
 									</Header>
 								</Container>
 							</Grid.Column>

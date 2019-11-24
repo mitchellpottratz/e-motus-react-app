@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button } from 'semantic-ui-react'
+import { Button, Loader } from 'semantic-ui-react'
 
 
 class FollowButtons extends Component {
@@ -8,8 +8,9 @@ class FollowButtons extends Component {
 		super(props)
 
 		this.state = {
-			usersFollowedIds: [],
-			followersCount: props.followersCount
+			usersFollowedIds: [], // the user ids of every user the current user follows
+			followersCount: props.followersCount, // the number of followers the user has
+			isLoading: true // shows loading icon on buttons until getFollowedUsersIds finished executing
 		}
 	}
 
@@ -28,12 +29,15 @@ class FollowButtons extends Component {
 
 			// parses the response
 			const parsedResponse = await response.json()
-			console.log('get followed user response:', parsedResponse)
 
 			// add the user ids to the state
 			this.setState({
-				usersFollowedIds: parsedResponse.data.map(user => user.id)
+				usersFollowedIds: parsedResponse.data.map(user => user.id),
+				isLoading: false
 			})
+
+			this.props.toggleFollowersDoneLoading()
+		
 
 		} catch (error) {
 			console.log(error);
