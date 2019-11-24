@@ -18,7 +18,13 @@ function PostsList(props) {
 		      			?
 		      			<Button floated="right" type="button" color="red" onClick={ () => props.deletePost(post.id) }>Delete</Button>
 		      			:
-						<LikeButtons likeCount={post.likes.length} postId={post.id} />
+						<LikeButtons 
+							likeCount={post.likes.length}
+							postId={post.id} 
+							usersLikedPostIds={props.usersLikedPostIds}
+							addLikedPostId={props.addLikedPostId}
+							removeLikedPostId={props.removeLikedPostId}
+							loadedLikedPosts={props.loadedLikedPosts}/>
 		      		}
 		      
 		      		<Card.Header>{post.user.first_name} {post.user.last_name}</Card.Header>
@@ -34,11 +40,6 @@ function PostsList(props) {
 							<p>{post.emoji}</p>
 						</div>
 			        </Card.Description>
-		      	</Card.Content>
-		      	<Card.Content id="post-card-extra-content" extra>
-		      		<Card.Meta>
-		      			{post.likes.length} Likes
-		      		</Card.Meta>
 		      	</Card.Content>
     		</Card>
 		)

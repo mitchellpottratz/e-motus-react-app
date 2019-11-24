@@ -12,12 +12,15 @@ class FeedContainer extends Component {
 
 		this.state = {
 			posts: [],
+			usersLikedPostIds: [],
+			loadedLikedPosts: false,
 		}
 	}
 
 	// called after every time the component renders
 	componentDidMount() {
 		this.getPosts() // gets posts from other users the user follows
+		this.getUsersLikedPostIds() // gets all of the post ids form the post the uses has liked
 	}
 
 	// gets all of the posts from users the current users follows
@@ -42,13 +45,60 @@ class FeedContainer extends Component {
 		}
 	}
 
+	// gets all of the posts the user has liked
+	getUsersLikedPostIds = async () => {
+
+		// set loadedLikedPosts to false so the loader shows up
+		this.setState({
+			loadedLikedPosts: false
+		})
+
+		try {
+			// makes call to api to gets all of the posts the user has liked
+			const response = await fetch(process.env.REACT_APP_API_URL + '/api/v1/likes/user', {
+				method: 'GET',
+				credentials: 'include',
+			})
+
+			// parses the response
+			const parsedResponse = await response.json()
+
+			// set the all of the posts ids in the state
+			this.setState({
+				usersLikedPostIds: parsedResponse.data.map(post => post.id),
+				loadedLikedPosts: true
+			})
+
+			console.log('initial users liked posts ids:', this.state.usersLikedPostIds)
+
+		} catch (error) {
+			console.log(error);
+		}
+	}
+
+	addLikedPostId = (postId) => {
+		this.setState({
+			usersLikedPostIds: [...this.state.usersLikedPostIds, postId]
+		})
+	}
+
+	removeLikedPostId = (postId) => {
+		this.setState({
+			usersLikedPostIds: this.state.usersLikedPostIds.filter(id => id !== postId),
+		})
+	}
+
 	render() {
 		return (
 			<Container id="feed-container">
 				<Segment className="feed-segment">
 					<PostsList posts={this.state.posts}
 							   header={'Your Feed'}
-							   userIsOwner={false} />
+							   userIsOwner={false} 
+							   usersLikedPostIds={this.state.usersLikedPostIds}
+							   addLikedPostId={this.addLikedPostId}
+							   removeLikedPostId={this.removeLikedPostId}
+							   loadedLikedPosts={this.state.loadedLikedPosts} />
 				</Segment>
 			</Container>
 		)
