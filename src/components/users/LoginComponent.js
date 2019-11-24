@@ -62,7 +62,13 @@ class LoginComponent extends Component {
 									            onChange={this.handleChange} />
 								</Form.Field>
 
-								<Button type="submit" color="blue">Login</Button>
+								<Form.Button type="submit"
+											 color="blue"
+											 disabled={
+											 	!this.state.email ||
+											 	!this.state.password
+											 }
+											 >Login</Form.Button>
 							</Form>
 							<Message attached='bottom' warning>
 						        <Icon name='help' />
