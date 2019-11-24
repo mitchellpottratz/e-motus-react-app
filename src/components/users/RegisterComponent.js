@@ -8,12 +8,20 @@ class RegisterComponent extends Component {
 		super()
 
 		this.state = {
+			image: null,
 			first_name: '',
 			last_name: '',
 			username: '',
 			email: '',
 			password: ''
 		}
+	}
+
+	// handles the change to the image input
+	handleFileChange = (e) => {
+		this.setState({
+			image: e.target.files[0]
+		})
 	}
 
 	// handles the change for the inputs on the login form

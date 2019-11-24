@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Segment, Grid, Menu, Container, Header, Image } from 'semantic-ui-react'
+import { Segment, Grid, Menu, Container, Header, Image, Button } from 'semantic-ui-react'
 
 // component imports
 import PostsList from './posts/PostsList.js'
@@ -21,6 +21,8 @@ class AccountContainer extends Component {
 			posts: [], // holds the users posts
 			likedPosts: [], // holds the users likes
 			followers: [], // holds the users comments
+
+			showImageUploadModal: false
 		}
 
 		// makes api call to populate the users posts tab, because that tab
@@ -65,6 +67,12 @@ class AccountContainer extends Component {
 			this.getUsersFollowers()
 		} 
 
+	}
+
+	openImageUploadModal = () => {
+		this.setState({
+			showImageUploadModal: true	
+		})
 	}
 
 	// makes api call to get all of the users posts, then passes 
@@ -257,11 +265,14 @@ class AccountContainer extends Component {
 									<Header as="h5" className="small-margin-header">
 										{this.props.user.followers.length} Followers
 									</Header>
+									<Button onClick={() => this.openImageUploadModal()}>Open</Button>
 								</Container>
 							</Grid.Column>
 
 						</Grid.Row>
 					</Grid>
+					
+
 				</Segment>
 
 				<Segment id="tab-segment">
@@ -290,7 +301,7 @@ class AccountContainer extends Component {
 			        </Container>
 			       
 				</Segment>
-
+				
 			</Container>
 		)
 	}
