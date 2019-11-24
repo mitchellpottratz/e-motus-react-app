@@ -198,6 +198,13 @@ class AccountContainer extends Component {
 
 	// gets all of the users followers
 	getUsersFollowers = async () => {
+
+		// set loadLikes to false so the loading icon shows until
+		// the likes are loaded
+		this.setState({
+			loadedFollowers: false
+		})
+
 		try {
 			// makes call to the api to get all of the users follower
 			const response = await fetch(process.env.REACT_APP_API_URL + '/api/v1/follows/followers', {
@@ -213,7 +220,8 @@ class AccountContainer extends Component {
 
 				// sets the users followers in the state
 				this.setState({
-					followers: parsedResponse.data
+					followers: parsedResponse.data,
+					loadedFollowers: true
 				})
 
 			} else {
@@ -260,13 +268,19 @@ class AccountContainer extends Component {
 								      userIsOwner={true} />
 				}
 
-				
-
 			} else if (this.state.showFollowers === true) {
-				return <FollowersList followers={this.state.followers}
-									  unfollower={this.unfollowUser}
-									  header={'Your Followers'}
-									  userIsOwner={true} />
+
+				// if the users followers have not loaded yet
+				if (this.state.loadedFollowers === false) {
+					return <Loader active />
+
+				// if the users followers have loaded
+				} else {
+					return <FollowersList followers={this.state.followers}
+									  	  unfollower={this.unfollowUser}
+									      header={'Your Followers'}
+									      userIsOwner={true} />
+				}
 			}
 		}
 
