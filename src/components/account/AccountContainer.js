@@ -22,6 +22,8 @@ class AccountContainer extends Component {
 			followers: [], // holds the users comments
 
 			loadedPosts: false,
+			loadedLikes: false,
+			loadedFollowers: false
 		}
 
 		// makes api call to populate the users posts tab, because that tab
@@ -134,6 +136,13 @@ class AccountContainer extends Component {
 
 	// gets all of the post the user has liked
 	getUsersLikes = async () => {
+
+		// set loadLikes to false so the loading icon shows until
+		// the likes are loaded
+		this.setState({
+			loadedLikes: false
+		})
+
 		try {
 			// makes api call to get all of the post the user has liked
 			const response = await fetch(process.env.REACT_APP_API_URL + '/api/v1/likes/user', {
@@ -148,7 +157,8 @@ class AccountContainer extends Component {
 			if (parsedResponse.status.code === 200) {
 				// add the liked post to the state
 				this.setState({
-					likedPosts: parsedResponse.data
+					likedPosts: parsedResponse.data,
+					loadedLikes: true
 				})
 			} else {
 				console.log('something went wrong')
@@ -237,10 +247,20 @@ class AccountContainer extends Component {
 				}
 				
 			} else if (this.state.showLikes === true) {
-				return <LikesList likedPosts={this.state.likedPosts} 
-								  deleteLike={this.deleteLike}
-								  header={'Your Liked Posts'}
-								  userIsOwner={true} />
+
+				// if the users likes have not loaded yet
+				if (this.state.loadedLikes === false) {
+					return <Loader active />
+
+				// if the users likes have loaded
+				} else {
+					return <LikesList likedPosts={this.state.likedPosts} 
+								  	  deleteLike={this.deleteLike}
+								  	  header={'Your Liked Posts'}
+								      userIsOwner={true} />
+				}
+
+				
 
 			} else if (this.state.showFollowers === true) {
 				return <FollowersList followers={this.state.followers}
