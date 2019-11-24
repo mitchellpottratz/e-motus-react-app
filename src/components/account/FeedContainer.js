@@ -83,9 +83,11 @@ class FeedContainer extends Component {
 	}
 
 	removeLikedPostId = (postId) => {
+		console.log('like ids before deleting this like:', this.state.usersLikedPostIds)
 		this.setState({
 			usersLikedPostIds: this.state.usersLikedPostIds.filter(id => id !== postId),
 		})
+		console.log('like ids after deleting this like:', this.state.usersLikedPostIds)
 	}
 
 	render() {

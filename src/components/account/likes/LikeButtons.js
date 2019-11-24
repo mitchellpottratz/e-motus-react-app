@@ -12,42 +12,6 @@ class LikeButtons extends Component {
 		}
 	}
 
-	// // called after every time the component renders
-	// componentDidMount() {
-	// 	this.getUsersLikedPostIds()
-	// }
-
-	// // gets all of the posts the user has liked
-	// getUsersLikedPostIds = async () => {
-
-	// 	// set loadedLikedPosts to false so the loader shows up
-	// 	this.setState({
-	// 		loadedLikedPosts: false
-	// 	})
-
-	// 	try {
-	// 		// makes call to api to gets all of the posts the user has liked
-	// 		const response = await fetch(process.env.REACT_APP_API_URL + '/api/v1/likes/user', {
-	// 			method: 'GET',
-	// 			credentials: 'include',
-	// 		})
-
-	// 		// parses the response
-	// 		const parsedResponse = await response.json()
-
-	// 		// set the all of the posts ids in the state
-	// 		this.setState({
-	// 			usersLikedPostIds: parsedResponse.data.map(post => post.id),
-	// 			loadedLikedPosts: true
-	// 		})
-
-	// 		console.log('initial users liked posts ids:', this.state.usersLikedPostIds)
-
-	// 	} catch (error) {
-	// 		console.log(error);
-	// 	}
-	// }
-
 	// likes a post 
 	likePost = async (postId) => {
 		try {
@@ -70,9 +34,8 @@ class LikeButtons extends Component {
 				likeCount: this.state.likeCount += 1
 			})
 
+			// adds the newly liked post id to the array of liked post ids
 			this.props.addLikedPostId(postId)
-
-			console.log('users liked post ids after new like:', this.props.usersLikedPostIds)
 
 		} catch (error) {
 			console.log(error);
@@ -93,16 +56,12 @@ class LikeButtons extends Component {
 			const parsedResponse = await response.json()
 			console.log('like post response:', parsedResponse)
 
-			console.log('users liked post ids before delete:', this.props.usersLikedPostIds)
-
 			// removes the liked posts from the state and subtracts one from the posts like count
 			this.setState({
 				likeCount: this.state.likeCount -= 1
 			})
 
 			this.props.removeLikedPostId(postId)
-
-			console.log('users liked post ids after delete:', this.props.usersLikedPostIds)
 
 		} catch (error) {
 			console.log(error);
