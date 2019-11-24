@@ -11,27 +11,30 @@ function UsersList(props) {
 	// out of each one
 	const userCards = props.users.map(user => {
 		return (
-			<Card key={user.id}>
-				<Card.Content>
-					<Image
-            			floated='right'
-            			size='mini'
-          				src='https://react.semantic-ui.com/images/avatar/large/steve.jpg'
-        			/>
-       	 			<Card.Header>{user.first_name} {user.last_name}</Card.Header>
-			        <Card.Meta>@{user.username}</Card.Meta>
- 				</Card.Content>
- 				<Card.Content id="follow-btns-container" extra>
- 					<FollowButtons userId={user.id} followersCount={user.followers.length} />
- 				</Card.Content>
-			</Card>
+			<Grid.Column key={user.id} computer={5} tablet={8} mobile={16}>
+				<Card fluid>
+					<Card.Content>
+						<Image
+	            			floated='right'
+	            			size='mini'
+	          				src='https://react.semantic-ui.com/images/avatar/large/steve.jpg'
+	        			/>
+	       	 			<Card.Header>{user.first_name} {user.last_name}</Card.Header>
+				        <Card.Meta>@{user.username}</Card.Meta>
+				        <Card.Meta>{user.followers.length} Followers</Card.Meta>
+	 				</Card.Content>
+	 				<Card.Content id="follow-btns-container" extra>
+	 					<FollowButtons userId={user.id} followersCount={user.followers.length} />
+	 				</Card.Content>
+				</Card>
+			</Grid.Column>
 		)
 	})
 
 	return (
-		<Card.Group id="search-results-cards">	
+		<Grid centered id="search-results-cards">
 			{userCards}
-		</Card.Group>
+		</Grid>
 	)
 
 }

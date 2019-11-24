@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Segment, Container, Form, Card, Dimmer, Loader } from 'semantic-ui-react'
+import { Segment, Container, Form, Card, Dimmer, Loader, Header } from 'semantic-ui-react'
 
 // component imports 
 import UsersList from './UsersList.js'
@@ -66,6 +66,8 @@ class FindContainer extends Component {
 			<Container id="find-container">
 
 				<Segment id="find-segment">
+
+					<Header as="h3">Find Users</Header>
 
 					<Form.Input type="text"
 								id="search-input"
