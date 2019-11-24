@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Segment, Grid, Menu, Container, Header, Image, Button } from 'semantic-ui-react'
+import { Segment, Grid, Menu, Container, Header, Image, Button, Loader } from 'semantic-ui-react'
 
 // component imports
 import PostsList from './posts/PostsList.js'
@@ -20,6 +20,8 @@ class AccountContainer extends Component {
 			posts: [], // holds the users posts
 			likedPosts: [], // holds the users likes
 			followers: [], // holds the users comments
+
+			loadedPosts: false,
 		}
 
 		// makes api call to populate the users posts tab, because that tab
@@ -69,6 +71,13 @@ class AccountContainer extends Component {
 	// makes api call to get all of the users posts, then passes 
 	// then to PostsLists.js to display the posts
 	getUsersPosts = async () => {
+
+		// set loadPosts to false so the loading icon shows until
+		// the posts are loaded
+		this.setState({
+			loadedPosts: false
+		})
+
 		try {
 			// calls api to get all of the users posts
 			const response = await fetch(process.env.REACT_APP_API_URL + '/api/v1/posts/', {
@@ -83,7 +92,8 @@ class AccountContainer extends Component {
 			if (parsedResponse.status.code === 200) {
 				// sets the posts returned from the api into the state
 				this.setState({
-					posts: parsedResponse.data
+					posts: parsedResponse.data,
+					loadedPosts: true
 				})
 
 			} else {
@@ -213,11 +223,19 @@ class AccountContainer extends Component {
 		const tabToRender = () => {
 
 			if (this.state.showPosts === true) {
-				return <PostsList posts={this.state.posts}
+
+				// if the users posts have not loaded yet
+				if (this.state.loadedPosts === false) {
+					return <Loader active />
+
+				// if the users posts have loaded
+				} else {
+					return <PostsList posts={this.state.posts}
 								  deletePost={this.deletePost}	
 								  header={'Your Posts'} 
 								  userIsOwner={true} />
-
+				}
+				
 			} else if (this.state.showLikes === true) {
 				return <LikesList likedPosts={this.state.likedPosts} 
 								  deleteLike={this.deleteLike}

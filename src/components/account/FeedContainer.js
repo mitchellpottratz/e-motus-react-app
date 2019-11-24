@@ -36,7 +36,6 @@ class FeedContainer extends Component {
 			this.setState({
 				posts: parsedResponse.data
 			})
-			console.log(this.state.posts)
 
 		} catch (error) {
 			console.log(error);
