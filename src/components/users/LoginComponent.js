@@ -33,7 +33,7 @@ class LoginComponent extends Component {
 
 					<Grid.Column mobile={14} tablet={10} computer={8}>
 						<Segment className="login-segment">
-							<h1>Login</h1>
+							<h1>Log In</h1>
 							<Form id="login-form">
 								{
 									this.props.loginError === true
@@ -64,9 +64,9 @@ class LoginComponent extends Component {
 
 								<Button type="submit" color="blue">Login</Button>
 							</Form>
-							<Message attached='bottom' class="form-help-message" warning>
+							<Message attached='bottom' warning>
 						        <Icon name='help' />
-						        Don't have an account?&nbsp;<a onClick={this.props.switchComponent} href='#'>Register here</a>&nbsp;
+						        Don't have an account?&nbsp;<a onClick={this.props.switchComponent} href='#'>Register Here</a>&nbsp;
     						</Message>
 							
 						</Segment>

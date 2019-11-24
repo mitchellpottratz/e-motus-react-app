@@ -12,7 +12,8 @@ code {
     monospace;
 }
 
-#login-form {
+#login-form,
+#registration-form {
   padding-bottom: 20px;
 }
 

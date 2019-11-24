@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Grid, Segment, Form, Button, Label } from 'semantic-ui-react'
+import { Grid, Segment, Form, Button, Message, Icon } from 'semantic-ui-react'
 
 
 class RegisterComponent extends Component {
@@ -13,15 +13,12 @@ class RegisterComponent extends Component {
 			last_name: '',
 			username: '',
 			email: '',
-			password: ''
-		}
-	}
+			password: '',
 
-	// handles the change to the image input
-	handleFileChange = (e) => {
-		this.setState({
-			image: e.target.files[0]
-		})
+			// values for error message
+			firstNameError: false,
+			lastNameError: false,
+		}
 	}
 
 	// handles the change for the inputs on the login form
@@ -33,6 +30,21 @@ class RegisterComponent extends Component {
 
 	// handles the login form submission
 	handleSubmit = (e) => {
+
+		// if the first_name input is blank
+		if (this.state.first_name < 1) {
+			this.setState({
+				firstNameError: true
+			})
+		}
+
+		// if the lasst_name input is blank
+		if (this.state.last_name < 1) {
+			this.setState({
+				lastNameError: true
+			})
+		}
+
 		this.props.register(this.state)
 	}
 
@@ -45,37 +57,66 @@ class RegisterComponent extends Component {
 					<Grid.Column mobile={14} tablet={10} computer={8}>
 						<Segment className="login-segment">
 							<h1>Register</h1>
-							<Form>
+							<Form id="registration-form">
+
+
 
 								<Form.Group widths="equal">
 									<Form.Field>
-										<Label>First Name</Label>
-										<Form.Input type="text" name="first_name" placeholder="First Name" onChange={this.handleChange} />
+										<Form.Input type="text"
+													label="First Name:"
+													name="first_name"
+													placeholder="First Name"
+													onChange={this.handleChange}  />
 									</Form.Field>
 									<Form.Field>
-										<Label>Last Name</Label>
-										<Form.Input type="text" name="last_name" placeholder="Last Name" onChange={this.handleChange} />
+										<Form.Input type="text"
+													label="Last Name:"
+													name="last_name"
+													placeholder="Last Name"
+													onChange={this.handleChange} />
 									</Form.Field>
 								</Form.Group>
 
 								<Form.Field>
-									<Label>Username</Label>
-									<Form.Input type="text" name="username" placeholder="Username" onChange={this.handleChange} />
+									<Form.Input type="text"
+												label="Username:"
+												name="username"
+												placeholder="Username"
+												onChange={this.handleChange} />
 								</Form.Field>
 
 								<Form.Field>
-									<Label>Email</Label>
-									<Form.Input type="email" name="email" placeholder="Email" onChange={this.handleChange} />
+									<Form.Input type="email"
+												label="Email:"
+									  			name="email"
+									  			placeholder="Email"
+									  			onChange={this.handleChange} />
 								</Form.Field>
 
 								<Form.Field>
-									<Label>Password</Label>
-									<Form.Input type="password" name="password" placeholder="Password" onChange={this.handleChange} />
+									<Form.Input type="password"
+												label="Password:"
+									  		    name="password"
+									  		    placeholder="Password"
+									  		    onChange={this.handleChange} />
 								</Form.Field>
 
-								<Button type="submit" color="blue">Register</Button>
+								<Form.Button type="submit"
+											 color="blue"
+											 disabled={
+											 	!this.state.first_name ||
+											 	!this.state.last_name ||
+											 	!this.state.username ||
+											 	!this.state.email ||
+											 	!this.state.password
+											 }
+										>Register</Form.Button>
 							</Form>
-							<small>Already have an account? <strong onClick={this.props.switchComponent}>Login Here</strong></small>
+							<Message attached='bottom' warning>
+						        <Icon name='help' />
+						        Already have an account?&nbsp;<a onClick={this.props.switchComponent} href='#'>Login Here</a>&nbsp;
+    						</Message>
 						</Segment>
 					</Grid.Column>
 
