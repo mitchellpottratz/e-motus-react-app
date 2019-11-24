@@ -31,7 +31,6 @@ class FeedContainer extends Component {
 
 			// parses the response
 			const parsedResponse = await response.json()
-			console.log(parsedResponse.data[0].likes)
 
 			// set the posts in the state
 			this.setState({

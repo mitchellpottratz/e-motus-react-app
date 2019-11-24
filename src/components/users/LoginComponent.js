@@ -29,9 +29,9 @@ class LoginComponent extends Component {
 		return (
 			<Grid onSubmit={this.handleSubmit}>
 				<Grid.Row columns={3}>
-					<Grid.Column width={4}></Grid.Column>
+					<Grid.Column mobile={1} tablet={3} computer={5}></Grid.Column>
 
-					<Grid.Column width={8}>
+					<Grid.Column mobile={14} tablet={10} computer={6}>
 						<Segment className="login-segment">
 							<h1>Login</h1>
 							<Form>
@@ -51,7 +51,7 @@ class LoginComponent extends Component {
 						</Segment>
 					</Grid.Column>
 
-					<Grid.Column width={4}></Grid.Column>
+					<Grid.Column mobile={1} tablet={3} computer={5}></Grid.Column>
 				</Grid.Row>
 			</Grid>
 		)
