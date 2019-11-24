@@ -4,11 +4,12 @@ import { Button } from 'semantic-ui-react'
 
 class FollowButtons extends Component {
 	
-	constructor() {
-		super()
+	constructor(props) {
+		super(props)
 
 		this.state = {
-			usersFollowedIds: []
+			usersFollowedIds: [],
+			followersCount: props.followersCount
 		}
 	}
 
@@ -58,9 +59,10 @@ class FollowButtons extends Component {
 
 			// if the api call was successful
 			if (parsedResponse.status.code === 201) {
-				// set the newly followed user id in the state
+				// set the newly followed user id in the state, increase followers count by one
 				this.setState({
-					usersFollowedIds: [...this.state.usersFollowedIds, userId]
+					usersFollowedIds: [...this.state.usersFollowedIds, userId],
+					followersCount: this.state.followersCount += 1
 				})
 			}
 
@@ -84,9 +86,10 @@ class FollowButtons extends Component {
 
 			// if the api call was successful
 			if (parsedResponse.status.code === 200) {
-				// remove the users id from the state
+				// remove the users id from the state, decrement followers count by one
 				this.setState({
-					usersFollowedIds: this.state.usersFollowedIds.filter(id => id !== userId)
+					usersFollowedIds: this.state.usersFollowedIds.filter(id => id !== userId),
+					followersCount: this.state.followersCount -= 1
 				})
 			}
 
@@ -101,13 +104,30 @@ class FollowButtons extends Component {
 		if (this.state.usersFollowedIds.includes(this.props.userId)) {
 
 			// show button that allows them to unfollow the user
-			return (<Button onClick={ () => this.unfollowUser(this.props.userId) }>Unfollow</Button>)
+			return (
+				<Button
+			        content='Unfollow'
+			        icon='user'
+			        label={{ as: 'a', basic: true, pointing: 'right', content: this.state.followersCount }}
+			        labelPosition='left' 
+			        onClick={ () => this.unfollowUser(this.props.userId) }
+			        />
+			)
 
 		// if the user is not already following this user
 		} else {
 
 			// show button that allows them to follow the user
-			return (<Button onClick={ () => this.followUser(this.props.userId) }>Follow</Button>)
+			return (
+				<Button
+			        content='Follow'
+			        icon='user'
+			        color="red"
+			        label={{ as: 'a', basic: true, pointing: 'right', content: this.state.followersCount }}
+			        labelPosition='left' 
+			        onClick={ () => this.followUser(this.props.userId) }
+			        />
+			)
 		}
 	}
 

@@ -58,7 +58,7 @@ class LikeButtons extends Component {
 			const parsedResponse = await response.json()
 			console.log(parsedResponse)
 
-			// adds the liked post to the state
+			// adds the liked post to the state, adds one to the liked posts like count
 			this.setState({
 				usersLikedPostIds: [...this.state.usersLikedPostIds, postId],
 				likeCount: this.state.likeCount += 1
@@ -82,7 +82,7 @@ class LikeButtons extends Component {
 			const parsedResponse = await response.json()
 			console.log(parsedResponse)
 
-			// adds the liked post to the state
+			// removes the liked posts from the state and subtracts one from the posts like count
 			this.setState({
 				usersLikedPostIds: this.state.usersLikedPostIds.filter(id => id !== postId),
 				likeCount: this.state.likeCount -= 1
