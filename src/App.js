@@ -17,7 +17,9 @@ class App extends Component {
       loggedIn: false,
       showLogin: true,
       showRegister: false,
-      user: null
+      user: null,
+
+      loginError: false // if there was an error logging in
     }
   }
 
@@ -63,8 +65,16 @@ class App extends Component {
           loggedIn: true,
           user: parsedResponse.data
         })
-        console.log(this.state.user)
-      } 
+      
+      // if there was an error logging in
+      } else {
+        console.log('login error')
+        // sets loginError to true so an error message will show on the 
+        // login page
+        this.setState({
+          loginError: true
+        })
+      }
 
     } catch (error) {
       console.log(error)
@@ -110,7 +120,9 @@ class App extends Component {
             return (
               <div className="App">
                 <Container className="form-container">
-                  <LoginComponent switchComponent={this.switchComponent} login={this.login} />
+                  <LoginComponent switchComponent={this.switchComponent}
+                                  login={this.login}
+                                  loginError={this.state.loginError} />
                 </Container>
               </div>
             )

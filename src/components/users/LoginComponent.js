@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Grid, Segment, Form, Button, Label } from 'semantic-ui-react'
+import { Grid, Segment, Form, Button, Message, Icon } from 'semantic-ui-react'
 
 
 class LoginComponent extends Component {
@@ -34,20 +34,41 @@ class LoginComponent extends Component {
 					<Grid.Column mobile={14} tablet={10} computer={8}>
 						<Segment className="login-segment">
 							<h1>Login</h1>
-							<Form>
+							<Form id="login-form">
+								{
+									this.props.loginError === true
+									?
+									<Message negative>
+    									<Message.Header>Login Error</Message.Header>
+    									<p>The email or password you provided is incorrect</p>
+  									</Message>
+    								: 
+    								null
+								}
 								<Form.Field>
-									<Label>Email</Label>
-									<Form.Input type="email" name="email" placeholder="Email" onChange={this.handleChange} />
+									<Form.Input type="email" 
+												label="Email:"
+											    name="email"
+											    placeholder="Email" 
+											    onChange={this.handleChange} 
+											    />
 								</Form.Field>
 
 								<Form.Field>
-									<Label>Password</Label>
-									<Form.Input type="password" name="password" placeholder="Password" onChange={this.handleChange} />
+									<Form.Input type="password"
+												label="Password:"
+									            name="password"
+									            placeholder="Password"
+									            onChange={this.handleChange} />
 								</Form.Field>
 
 								<Button type="submit" color="blue">Login</Button>
 							</Form>
-							<small>Don't have an account? <strong onClick={this.props.switchComponent}>Register Here</strong></small>
+							<Message attached='bottom' class="form-help-message" warning>
+						        <Icon name='help' />
+						        Don't have an account?&nbsp;<a onClick={this.props.switchComponent} href='#'>Register here</a>&nbsp;
+    						</Message>
+							
 						</Segment>
 					</Grid.Column>
 
