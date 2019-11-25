@@ -180,6 +180,7 @@ class CommentsModal extends Component {
 										width={12}
 										name="content"
 										onChange={this.handleChange}
+										value={this.state.content}
 										placeholder="Comment Something..." />
 							<Form.Button type="submit"
 										 width={2}
