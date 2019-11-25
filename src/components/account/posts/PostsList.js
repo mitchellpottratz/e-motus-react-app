@@ -41,6 +41,12 @@ function PostsList(props) {
 						</div>
 			        </Card.Description>
 		      	</Card.Content>
+		      	<Card.Content extra>
+		      		<Button type="button"
+		      				color="blue"
+		      				content="View Comment"
+		      				onClick={ () => props.openCommentsModal(post.id) } />
+		      	</Card.Content> 
     		</Card>
 		)
 	})

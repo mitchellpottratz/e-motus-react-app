@@ -3,6 +3,7 @@ import { Segment, Grid, Menu, Container, Header, Image } from 'semantic-ui-react
 
 // component imports 
 import PostsList from './posts/PostsList.js'
+import CommentsModal from './comments/CommentsModal.js'
 
 
 class FeedContainer extends Component {
@@ -14,6 +15,7 @@ class FeedContainer extends Component {
 			posts: [],
 			usersLikedPostIds: [],
 			loadedLikedPosts: false,
+			commentsPostId: -1
 		}
 	}
 
@@ -68,9 +70,6 @@ class FeedContainer extends Component {
 				usersLikedPostIds: parsedResponse.data.map(post => post.id),
 				loadedLikedPosts: true
 			})
-
-			console.log('initial users liked posts ids:', this.state.usersLikedPostIds)
-
 		} catch (error) {
 			console.log(error);
 		}
@@ -83,11 +82,23 @@ class FeedContainer extends Component {
 	}
 
 	removeLikedPostId = (postId) => {
-		console.log('like ids before deleting this like:', this.state.usersLikedPostIds)
 		this.setState({
 			usersLikedPostIds: this.state.usersLikedPostIds.filter(id => id !== postId),
 		})
-		console.log('like ids after deleting this like:', this.state.usersLikedPostIds)
+	}
+
+	// opens comments modal for a post
+	openCommentsModal = (postId) => {
+		this.setState({
+			commentsPostId: postId
+		})
+	}
+
+	// closes the comments modal that currently open
+	closeCommentsModal = () => {
+		this.setState({
+			commentsPostId: -1
+		})
 	}
 
 	render() {
@@ -100,8 +111,19 @@ class FeedContainer extends Component {
 							   usersLikedPostIds={this.state.usersLikedPostIds}
 							   addLikedPostId={this.addLikedPostId}
 							   removeLikedPostId={this.removeLikedPostId}
-							   loadedLikedPosts={this.state.loadedLikedPosts} />
+							   loadedLikedPosts={this.state.loadedLikedPosts} 
+							   openCommentsModal={this.openCommentsModal} />
 				</Segment>
+
+				{
+				  this.state.commentsPostId !== -1
+				  ?
+				  <CommentsModal postId={this.state.commentsPostId} 
+				  				 closeCommentsModal={this.closeCommentsModal} />
+				  :
+				  null
+				}
+		      					   
 			</Container>
 		)
 	}
