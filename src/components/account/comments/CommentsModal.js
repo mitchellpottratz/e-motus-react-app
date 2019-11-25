@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Form, Label, Modal, Header, Button, Icon } from 'semantic-ui-react'
 
 // component imports 
-import CommentsList from './CommentsList.js'
+import CommentList from './CommentList.js'
 
 
 class CommentsModal extends Component {
@@ -72,7 +72,7 @@ class CommentsModal extends Component {
 			// parses the response
 			const parsedResponse = await response.json()
 	
-			
+
 
 		} catch (error) {
 			console.log(error);
@@ -85,7 +85,7 @@ class CommentsModal extends Component {
 				<Header content="Comments" />
 				<Modal.Content scrolling>
 					
-					
+					<CommentList comments={this.state.comments} />
 
 				</Modal.Content>
 
