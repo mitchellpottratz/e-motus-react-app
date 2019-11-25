@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Form, Label, Modal, Header, Button, Icon } from 'semantic-ui-react'
+import { Form, Label, Modal, Header, Button, Icon, Dimmer, Loader } from 'semantic-ui-react'
 
 // component imports 
 import CommentList from './CommentList.js'
@@ -15,7 +15,7 @@ class CommentsModal extends Component {
 			comments: [], // all of the posts comments
 			userCommentIds: [], // all of the ids of the post the user has liked
 			modalDoneLoading: false, // determines where to show loading icon or the modals contents
-			content: '',	
+			content: ''
 		}
 	}
 
@@ -71,9 +71,11 @@ class CommentsModal extends Component {
 			// parses the response
 			const parsedResponse = await response.json()
 
-			// set the users comment in the state
+			// set the users comment in the state, and changes modalDoneLoading to true
+			// so the loading icon disapears and the modals content is shown
 			this.setState({
-				userCommentIds: parsedResponse.data.map(comment => comment.id)
+				userCommentIds: parsedResponse.data.map(comment => comment.id),
+				modalDoneLoading: true
 			})
 
 		} catch (error) {
@@ -139,22 +141,37 @@ class CommentsModal extends Component {
 
 		// determine if the modal should show its contents
 		const renderModalContent = () => {
-		
+
+			// if the modal is not done loading
+			if (this.state.modalDoneLoading === false) {
+				return <Dimmer active inverted>
+        					<Loader inverted>Loading</Loader>
+      					</Dimmer>
+
+			// if the modal is done loading
+			} else {
+
+				// if there are no comments for this post
+				if (this.state.comments.length === 0) {
+					return <p>No Comments</p>
+
+				// if there are comments for this post
+				} else {
+					return <CommentList comments={this.state.comments} 
+								 	 	userCommentIds={this.state.userCommentIds}
+								 	 	deleteComment={this.deleteComment} />
+					
+				}
+			}
 		}
 
 		return (
 			<Modal open={true}>
 				<Header content="Comments" />
 				<Modal.Content scrolling>
-					{
-						this.state.comments.length === 0
-						?
-						<p>No Comments</p>
-						:
-						<CommentList comments={this.state.comments} 
-								 userCommentIds={this.state.userCommentIds}
-								 deleteComment={this.deleteComment} />
-					}
+
+					{renderModalContent()}
+
 				</Modal.Content>
 				<Modal.Actions>
 					<Form onSubmit={this.addComment} fluid>
