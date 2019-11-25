@@ -44,7 +44,7 @@ function PostsList(props) {
 		      	<Card.Content extra>
 		      		<Button type="button"
 		      				color="blue"
-		      				content="View Comment"
+		      				content="View Comments"
 		      				onClick={ () => props.openCommentsModal(post.id) } />
 		      	</Card.Content> 
     		</Card>
