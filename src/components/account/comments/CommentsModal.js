@@ -90,13 +90,16 @@ class CommentsModal extends Component {
 				</Modal.Content>
 
 				<Modal.Actions>
-					<Form onSubmit={this.addComment}>
+					<Form onSubmit={this.addComment} fluid>
 						<Form.Group>
 							<Form.Input type="text"
+										width={12}
 										name="content"
 										onChange={this.handleChange}
 										placeholder="Comment Something..." />
 							<Form.Button type="submit"
+										 width={2}
+										 color="blue"
 										 content="Comment" />
 						</Form.Group>
 					</Form>
