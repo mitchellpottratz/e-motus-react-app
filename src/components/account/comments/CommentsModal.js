@@ -1,20 +1,25 @@
 import React, { Component } from 'react'
 import { Form, Label, Modal, Header, Button, Icon } from 'semantic-ui-react'
 
+// component imports 
+import CommentsList from './CommentsList.js'
+
 
 class CommentsModal extends Component {
 
-	constructor() {
-		super()
+	constructor(props) {
+		super(props)
 
 		this.state = {
+			post_id: props.postId,
+			comments: [],
 			content: ''
 		}
 	}
 
 	componentDidMount() {
 		// gets all of the comments for this post
-		this.getComments(this.props.postId) 
+		this.getComments() 
 	}
 
 	// handles the change for the comment input
@@ -22,20 +27,28 @@ class CommentsModal extends Component {
 		this.setState({
 			[e.target.name]: e.target.value
 		})
+		console.log('content value:', this.state.content)
 	}
 
 	// gets all of the comments for a post
-	getComments = async (postId) => {
+	getComments = async () => {
 		try {
 			// makes api call to get all the comments for the post
-			const response = await fetch(process.env.REACT_APP_API_URL + '/api/v1/comments/' + postId, {
+			const response = await fetch(process.env.REACT_APP_API_URL + '/api/v1/comments/' + this.state.post_id, {
 				method: 'GET',
 				credentials: 'include',
 			})
 
 			// parses the response
 			const parsedResponse = await response.json()
-			console.log(parsedResponse)
+			
+			// if the api request was successful
+			if (parsedResponse.status.code === 200) {
+				// set the comments in the state
+				this.setState({
+					comments: parsedResponse.data
+				})
+			} 
 
 		} catch (error) {
 			console.log(error);
@@ -43,25 +56,44 @@ class CommentsModal extends Component {
 	}
 
 	// creates a new comment for the post
-	addComment = () => {
-		
+	addComment = async (e) => {
+		e.preventDefault()
+		try {
+			// makes api call to create a new comment
+			const response = await fetch(process.env.REACT_APP_API_URL + '/api/v1/comments/', {
+				method: 'POST',
+				credentials: 'include',
+				body: JSON.stringify(this.state),
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			})
+
+			// parses the response
+			const parsedResponse = await response.json()
+	
+			
+
+		} catch (error) {
+			console.log(error);
+		}
 	}
 
 	render() {
 		return (
 			<Modal open={true}>
-				<Header content="Edit Dog" />
+				<Header content="Comments" />
 				<Modal.Content scrolling>
 					
-					comments here
+					
 
 				</Modal.Content>
 
 				<Modal.Actions>
-					<Form>
+					<Form onSubmit={this.addComment}>
 						<Form.Group>
 							<Form.Input type="text"
-										name="comment"
+										name="content"
 										onChange={this.handleChange}
 										placeholder="Comment Something..." />
 							<Form.Button type="submit"
