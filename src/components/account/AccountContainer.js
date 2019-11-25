@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
-import { Segment, Grid, Menu, Container, Header, Image, Button, Loader } from 'semantic-ui-react'
+import { Segment, Grid, Menu, Container, Header, Image, Button, Loader, Modal } from 'semantic-ui-react'
 
 // component imports
 import PostsList from './posts/PostsList.js'
 import LikesList from './likes/LikesList.js'
 import FollowersList from './follows/FollowersList.js'
+import CommentsModal from './comments/CommentsModal.js'
 
 
 class AccountContainer extends Component {
@@ -16,10 +17,10 @@ class AccountContainer extends Component {
 			showPosts: true, // whether to show the PostList tab
 			showLikes: false, // whether to show the LikesList tab
 			showFollowers: false, // whether to show the FollowersList tab
-
 			posts: [], // holds the users posts
 			likedPosts: [], // holds the users likes
 			followers: [], // holds the users comments
+			commentsPostId: -1, // post id sent as prop to comments modal
 
 			loadedPosts: false,
 			loadedLikes: false,
@@ -233,6 +234,20 @@ class AccountContainer extends Component {
 		}
 	}
 
+	// opens comments modal for a post
+	openCommentsModal = (postId) => {
+		this.setState({
+			commentsPostId: postId
+		})
+	}
+
+	// closes the comments modal that currently open
+	closeCommentsModal = () => {
+		this.setState({
+			commentsPostId: -1
+		})
+	}
+
 
 	render() {
 
@@ -251,7 +266,8 @@ class AccountContainer extends Component {
 					return <PostsList posts={this.state.posts}
 								  deletePost={this.deletePost}	
 								  header={'Your Posts'} 
-								  userIsOwner={true} />
+								  userIsOwner={true} 
+								  openCommentsModal={this.openCommentsModal}/>
 				}
 				
 			} else if (this.state.showLikes === true) {
@@ -314,6 +330,14 @@ class AccountContainer extends Component {
 						</Grid.Row>
 					</Grid>
 					
+					{
+				  		this.state.commentsPostId !== -1
+				  		?
+				  		<CommentsModal postId={this.state.commentsPostId} 
+				  					   closeCommentsModal={this.closeCommentsModal} />
+				  		:
+				  		null
+				}
 
 				</Segment>
 

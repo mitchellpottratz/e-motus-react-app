@@ -11,10 +11,11 @@ class CommentsModal extends Component {
 		super(props)
 
 		this.state = {
-			post_id: props.postId,
-			comments: [],
-			userCommentIds: [],
-			content: ''
+			post_id: props.postId, // post id of the comments this modal is displaying
+			comments: [], // all of the posts comments
+			userCommentIds: [], // all of the ids of the post the user has liked
+			modalDoneLoading: false, // determines where to show loading icon or the modals contents
+			content: '',	
 		}
 	}
 
@@ -69,7 +70,6 @@ class CommentsModal extends Component {
 
 			// parses the response
 			const parsedResponse = await response.json()
-			console.log('users comment for this post:', parsedResponse)
 
 			// set the users comment in the state
 			this.setState({
@@ -98,7 +98,6 @@ class CommentsModal extends Component {
 
 			// parses the response
 			const parsedResponse = await response.json()
-			console.log(parsedResponse.data)
 
 			// add the new comment to the state, clear the content property 
 			// to clear the comment input on
@@ -124,7 +123,6 @@ class CommentsModal extends Component {
 
 			// parses the response
 			const parsedResponse = await response.json()
-			console.log('comment deleted:', parsedResponse)
 
 			// remove the deleted comment from the comments array and userCommentIds array
 			this.setState({
@@ -138,11 +136,16 @@ class CommentsModal extends Component {
 	}
 
 	render() {
+
+		// determine if the modal should show its contents
+		const renderModalContent = () => {
+		
+		}
+
 		return (
 			<Modal open={true}>
 				<Header content="Comments" />
 				<Modal.Content scrolling>
-					
 					{
 						this.state.comments.length === 0
 						?
@@ -152,10 +155,7 @@ class CommentsModal extends Component {
 								 userCommentIds={this.state.userCommentIds}
 								 deleteComment={this.deleteComment} />
 					}
-					
-
 				</Modal.Content>
-
 				<Modal.Actions>
 					<Form onSubmit={this.addComment} fluid>
 						<Form.Group>
